@@ -1,0 +1,68 @@
+<ion-content>
+
+<body class="body-bg-full profile-page"  style="background-image: url(assets/images/night.jpg)">
+    <div id="wrapper" class="row wrapper">
+        <div class="col-10 ml-sm-auto col-sm-6 col-md-4 ml-md-auto login-center mx-auto">
+            <div class="navbar-header text-center">
+                <a href="#">
+                    <img alt="" src="assets/images/logo1.png">
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+            <form class="md-form" [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+                <div class="form-group">
+				<label for="example-email">Email</label>
+                    <input type="email" class="form-control form-control-line" #email formControlName="email" type="email" [class.invalid]="!loginForm.controls.email.valid &&
+          loginForm.controls.email.dirty" >
+                    
+                </div>
+				    <div class="error-message" *ngIf="!loginForm.controls.email.valid  && loginForm.controls.email.dirty">
+      <p>Nhập đúng định dạng Email.</p>
+    </div>
+	<div class ="recaptcha-container"></div>
+				
+
+				
+                <div class="form-group">
+				<label for="pwd">Mật khẩu</label>
+                    <input type="password" class="form-control form-control-line" id="pwd" #password formControlName="password" [class.invalid]="!loginForm.controls.password.valid &&
+          loginForm.controls.password.dirty">
+                 
+                </div>
+				   <div class="error-message" *ngIf="!loginForm.controls.password.valid  &&
+      loginForm.controls.password.dirty">
+      <p>Mật khẩu ít nhất 6 kí tự.</p>
+    </div>
+                <div class="form-group">
+                    <button class="btn btn-block btn-lg btn-primary ripple" type="submit">Đăng nhập</button>
+                </div>
+       
+                <!-- /.form-group -->
+            </form>
+			   <div class="form-group no-gutters mb-0">
+                    <div class="col-md-12 d-flex">
+                       <a (click)="LPass()" id="to-recover" class="my-auto pb-2"><i class="fa fa-lock mr-1"></i>Quên mật khẩu?</a>
+                    </div>
+                    <!-- /.col-md-12 -->
+                </div>
+            <!-- /.form-material -->
+            <hr>
+            <div class="row btn-list">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-block btn-facebook ripple" data-toggle="tooltip" data-placement="top" title="Login with Facebook" (click) = "UloginFB()"><span class="fa fa-facebook-f"></span> Đăng nhập Facebook</button>
+                </div>
+           
+            </div>
+            <!-- /.btn-list -->
+            <footer class="col-sm-12 text-center">
+                <hr>
+                <p>Tài khoản? <a class="text-primary m-l-5" (click)="Register()">Đăng ký</a>
+                </p>
+            </footer>
+        </div>
+        <!-- /.login-center -->
+    </div>
+    <!-- /.body-container -->
+    <!-- Scripts -->
+</body>
+</ion-content>

@@ -1,0 +1,39 @@
+<ion-menu [content]="content">
+  <!-- <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <ion-content style="background: -webkit-linear-gradient(#488aff, #500aff); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#488aff, #500aff); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#488aff, #500aff); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#488aff, #500aff); /* Standard syntax */">
+      <div>
+          <img src="{{avatar}}" style="border:5px solid white ;display:block;width:60%;height:auto;margin-left:auto;margin-right:auto;border-radius:50%" />
+        </div>
+        <h2 style="color:white;font-weight:400;text-align:center;" >
+          Hi! {{username}}
+        </h2> 
+    <ion-list>
+   
+       <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button> 
+	    
+        <button ion-item menuClose="" (click) = "logout()">Đăng xuất</button>
+        
+   
+    </ion-list>
+	
+  </ion-content>
+
+</ion-menu>
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+
+
+
+  
