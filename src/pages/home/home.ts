@@ -28,14 +28,15 @@ export class HomePage implements OnInit,OnDestroy {
   myInput:any;
   isButton: any = {};
   st:string;
+  booklists: any;
   
   constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
 
 }
 ngOnInit(){
 	
+	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
-	this.selectedSegment = 'book';
 	this.events.subscribe("Filter",ids=>{
 		if(ids ===1){
 		this.isButton = {};
@@ -60,13 +61,27 @@ ngOnInit(){
 		  id:"other",
 		  title:"OTHER"
 	  }
-	  
-  
     ];
+	this.selectedSegment = this.slides[0].id;
 	this.booksObs = this.db.list('Inventory/BOOKS/');
 	this.Subs = this.booksObs.subscribe(item =>{
-		
 		this.books = item;
+		this.booklists = [];
+		this.slides.forEach(type => {
+			this.booklists[type.id] = []
+		})
+		var book_number = item.length;
+		for(var i = 0; i < book_number; i++) {
+			if(item[i].Type == this.slides[0].id) {
+				this.booklists[this.slides[0].id].push(item[i]);
+			}
+			else if(item[i].Type == this.slides[1].id) {
+				this.booklists[this.slides[1].id].push(item[i]);
+			}
+			else {
+				this.booklists[this.slides[2].id].push(item[i]);
+			}
+		}
 	})
 
 }
@@ -86,6 +101,7 @@ ngOnDestroy(){
     });
 	//console.log(selectedIndex);
     this.slider.slideTo(selectedIndex);
+	
   }
   
   onSlideChanged(slider) {
@@ -93,6 +109,8 @@ ngOnDestroy(){
 	if(slider.getActiveIndex() < this.slides.length){
 const currentSlide = this.slides[slider.getActiveIndex()];
     this.selectedSegment = currentSlide.id;
+	
+		console.log(this.booklists[this.selectedSegment])
 	}
 	  
 	
@@ -100,8 +118,6 @@ const currentSlide = this.slides[slider.getActiveIndex()];
   }  
 onBlur(ev){
 	this.hidden = !this.hidden;
-
-	
 } 
 onFocus(ev){
 	this.hidden = !this.hidden;
@@ -149,7 +165,7 @@ onInput(event){
   
 	}
 	
-	sua(Title,key,price,Diem){
+	sua(Title, key, price, Diem){
 		let alert = this.alertCtrl.create({
 			title:'Sửa thông tin',
 			inputs:[

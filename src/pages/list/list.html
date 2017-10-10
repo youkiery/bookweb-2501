@@ -50,6 +50,7 @@
 <ion-label>DANH SÁCH KHÁCH HÀNG</ion-label>
 </div>
 		 <ion-list>
+		 <a href="#abook">
     <button ion-item *ngFor="let customer of customers" (tap)="SelectCus($event, customer.$key,customer.Name)">
       <ion-icon name="md-person"></ion-icon>
       {{customer.Name}} 
@@ -57,5 +58,6 @@
         {{customer.Point}}
       </div>
     </button>
+	</a>
   </ion-list>
 </ion-content>
