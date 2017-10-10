@@ -1,10 +1,5 @@
-import { Component,ViewChild,OnInit,OnDestroy,  trigger,
-  state,
-  style,
-  animate,
-  transition,keyframes  } from '@angular/core';
-import { NavController,Slides,Events, NavParams,Tabs } from 'ionic-angular';
-
+import { Component,ViewChild,OnInit,OnDestroy  } from '@angular/core';
+import { NavController,Slides,Events, NavParams,Tabs, AlertController, ToastController } from 'ionic-angular';
 //import { SuperTabsModule } from 'ionic2-super-tabs';
 import { SignupPage } from '../signup/signup';
 import { ListPage } from '../list/list';
@@ -15,21 +10,7 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html',
-  animations: [
-    trigger('bounce', [
-      state('bouncing', style({
-        transform: 'translate3d(0,0,0)'
-      })),
-      transition('* => *', [
-        animate('300ms ease-in', keyframes([
-          style({transform: 'translate3d(0,0,0)', offset: 0}),
-          style({transform: 'translate3d(0,-10px,0)', offset: 0.5}),
-          style({transform: 'translate3d(0,0,0)', offset: 1})
-        ]))
-      ])
-    ])
-  ]
+  templateUrl: 'home.html'
 })
 export class HomePage implements OnInit,OnDestroy {
 
@@ -46,10 +27,9 @@ export class HomePage implements OnInit,OnDestroy {
   hidden: boolean;
   myInput:any;
   isButton: any = {};
-  bounceState: String = 'noBounce';
+  st:string;
   
-  
-  constructor(public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
+  constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
 
 }
 ngOnInit(){
@@ -85,6 +65,7 @@ ngOnInit(){
     ];
 	this.booksObs = this.db.list('Inventory/BOOKS/');
 	this.Subs = this.booksObs.subscribe(item =>{
+		
 		this.books = item;
 	})
 
@@ -153,13 +134,9 @@ onInput(event){
 	 	 		
   }
   orderBook(Title,key,price,inv,quan){
-	  
 	 this.isButton[key] = true;
 	  this.checkDiv = true;
 	  console.log();
-	      this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 
-//this.bounceState = 'noBounce'; 		  
-
 	  var data = {
 		  Title: Title,
 		  key: key,
@@ -170,10 +147,105 @@ onInput(event){
 	  }
 		this.authdata.BooksPush(data);
   
-
+	}
 	
-	
-	  
-  }
-   
+	sua(Title,key,price,Diem){
+		let alert = this.alertCtrl.create({
+			title:'Sửa thông tin',
+			inputs:[
+				{
+					name:'ten',
+					placeholder:'Tên: '+Title
+				},
+				{
+					name:'gia',
+					type: 'number',
+					placeholder:'Giá: '+price
+				},
+				{
+					name:'diem',
+					type: 'number',
+					placeholder:'Điểm: '+Diem
+				}
+			],
+			buttons:[
+				{
+          text: 'Hủy',
+          role: 'cancel',
+          handler: data => {}
+				},
+				{
+					text: 'Chấp nhận',
+          handler: data => {
+						if(data.ten==null){data.ten=Title;};
+						if(data.gia==null){data.gia=price;};
+						if(data.diem==null){data.diem=Diem;}
+						var d= new Date();
+            var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+						this.db.list('Inventory/BOOKS/').update(key,{
+							DateINP: s,
+							Title: data.ten,
+							Diem: data.diem,
+							PersonINP: this.authdata.fetchUser()["displayName"],
+							Price: data.gia
+						});
+						this.st="Sửa thành công!";
+						this.presentToast();
+					}
+				}
+			]
+		});
+		alert.present();
+	}
+  nhap(Title,key,soluong){
+		let alert = this.alertCtrl.create({
+			title:'Nhập số lượng',
+			message:'Sách '+Title,
+			inputs:[
+				{
+					name:'sl',
+					type:'number',
+					placeholder:'0'
+				}
+			],
+			buttons:[
+				{
+          text: 'Hủy',
+          role: 'cancel',
+          handler: data => {}
+				},
+				{
+					text: 'Chấp nhận',
+          handler: data => {
+						if(data.sl!=null){
+							var d= new Date();
+							var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+							var t=soluong+parseInt(data.sl);
+							
+							this.db.list('Inventory/BOOKS/').update(key,{
+								DateINP: s,
+								PersonINP: this.authdata.fetchUser()["displayName"],
+								Quanlity: t
+							});
+							this.st="Nhập thành công!";
+							this.presentToast();
+						}else{};
+						
+					}
+				}
+			]
+		});
+		alert.present();
+	} 
+	presentToast() {
+		const toast = this.ToastCtrl.create({
+			message: 'User '+this.authData.fetchUser()["displayName"]+' '+this.st,
+			duration: 3000,
+			position: 'top'
+		});
+		toast.onDidDismiss(() => {
+			console.log('Dismissed toast');
+		});
+		toast.present();
+	}
 }

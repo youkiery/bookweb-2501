@@ -18,13 +18,18 @@
 <ion-list>
 {{exp}}
   <ion-item>
-    <ion-label floating>Nhóm sách</ion-label>
-    <ion-input [(ngModel)] = "Type" name="Type" type="text"></ion-input>
+    <ion-label>Nhóm sách</ion-label>
+    <!-- <ion-input [(ngModel)] = "Type" name="Type" type="text"></ion-input> -->
+    <ion-select [(ngModel)]="Type" name="Type">
+      <ion-option value="book">BOOK</ion-option>
+      <ion-option value="earpipe">EARPIPE</ion-option>
+      <ion-option value="other">OTHER</ion-option>
+    </ion-select>
   </ion-item>
 
   <ion-item>
     <ion-label floating>Tên sách</ion-label>
-    <ion-input [(ngModel)] = "Title" name="Title" type="text"></ion-input>
+    <ion-input [(ngModel)] = "Title" name="Title" type="text" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label  floating>Giá</ion-label>
@@ -34,10 +39,14 @@
     <ion-label floating>Số lượng</ion-label>
     <ion-input [(ngModel)] = "Quanlity" name="Quanlity" type="number"></ion-input>
   </ion-item>
+  <ion-item>
+    <ion-label floating>Điểm</ion-label>
+    <ion-input [(ngModel)] = "Diem" name="Diem" type="number"></ion-input>
+  </ion-item>
 
 </ion-list>
 <div padding>
-  <button class="btn btn-block btn-primary" name="submit">Nhập</button>
+  <button class="btn btn-block btn-primary" name="submit" >Nhập</button>
 </div>
 </form>
 </ion-content>
