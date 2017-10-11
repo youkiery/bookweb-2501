@@ -1,6 +1,6 @@
 import { Component, onInit, onDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FirebaseListObservable, AngularFireDatabase } from '@angularfire2/database'
+import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database'
 
 
 /**
@@ -17,15 +17,24 @@ import { FirebaseListObservable, AngularFireDatabase } from '@angularfire2/datab
 })
 export class StatisticPage implements onInit, onDestroy {
   sub:any;
-  statistic:any;
+  statistic:string = 'day';
+  item:any;
+  day:any;
+  month:any;
+  year:any;
+  time:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase) {
   }
   onInit() {
-    this.statistic = [];
+/*
+  var date = new Date();
+	this.time = date.now();
+	console.log(this.time, this.time.toLocaleString());
+	this.item = [];
 	this.sub = this.db.list('/statistic/').subscribe(item => {
-	  this.statistic = item;
+	  this.item = item;
 	})
-  }
+*/  }
   onDestroy() {
     this.sub.unsubscribe();
   }
@@ -33,5 +42,5 @@ export class StatisticPage implements onInit, onDestroy {
   ionViewDidLoad() {
     
   }
-
 }
+

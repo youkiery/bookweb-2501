@@ -89,17 +89,26 @@ export class AddBookPage{
 				if(this.point==null){
 					this.point=0;
 				}
+				
 				var data = {		
 					Type: this.Type,
 					Title: this.Title,
 					Price: parseInt(this.Price),
 					Quanlity: parseInt(this.Quanlity),
-					point: parseInt(this.point),
+					Point: parseInt(this.point),
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
 				}
 				this.authData.insertDBFree("Inventory/BOOKS/",data);
+				this.db.list('/statistic/').push({
+					key: this.books[this.books.length - 1].$key,
+					number: parseInt(this.Quanlity),
+					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
+					PersonINP: this.authData.fetchUser()["displayName"],
+					type: "import"	
+				})
+				
 				console.log("Thành Công");
 				this.presentToast();
 				this.Title=null;

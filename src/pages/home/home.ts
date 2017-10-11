@@ -260,6 +260,13 @@ onInput(event){
 								PersonINP: this.authData.fetchUser()["displayName"],
 								type: "import"
 							});
+							/*
+							this.db.list('/Inventory/BOOKS/' + this.books[this.books.length - 1].$key + '/log/').push({
+								number: parseInt(this.Quanlity),
+								DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
+								PersonINP: this.authData.fetchUser()["displayName"],
+							})
+							*/
 							this.st="Nhập thành công!";
 							this.presentToast();
 						}else{};
