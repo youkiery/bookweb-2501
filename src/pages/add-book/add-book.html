@@ -18,17 +18,17 @@
 <ion-list>
 {{exp}}
   <ion-item>
-    <ion-label>Nhóm</ion-label>
+    <ion-label>Nhóm sách</ion-label>
     <!-- <ion-input [(ngModel)] = "Type" name="Type" type="text"></ion-input> -->
     <ion-select [(ngModel)]="Type" name="Type">
       <ion-option value="book">BOOK</ion-option>
-      <ion-option value="earpipe">ỐNG NGHE</ion-option>
-      <ion-option value="other">KHÁC</ion-option>
+      <ion-option value="earpipe">EARPIPE</ion-option>
+      <ion-option value="other">OTHER</ion-option>
     </ion-select>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Tên</ion-label>
+    <ion-label floating>Tên sách</ion-label>
     <ion-input [(ngModel)] = "Title" name="Title" type="text" ></ion-input>
   </ion-item>
   <ion-item>

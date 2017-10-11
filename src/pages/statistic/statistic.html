@@ -29,7 +29,18 @@
 	</ion-segment>
 	<div [ngSwitch]="statistic">
 		<ion-list *ngSwitchCase="'day'">
-		
+			<div (click)="nextDate()">
+				next
+			</div>
+			<div>
+				{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+				<div *ngFor="let date of currItem">
+					{{date.DateINP}}
+				</div>
+			</div>
+			<div (click)="prvDate()">
+				previous
+			</div>
 		</ion-list>
 		<ion-list *ngSwitchCase="'month'">
 		

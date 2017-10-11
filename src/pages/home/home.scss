@@ -10,8 +10,11 @@ $main: #fe8888;
 
 
     font-family: Tahoma,Georgia,arial,Verdana,sans-serif;
-    .toolbar-background{
-        background: white;
+    .toolbar-background-md{
+        /*background: #009900;*/
+    }
+    .toolbar-background-ios{
+        /*background: #009900;*/
     }
     #input-group1{
         display: none;
@@ -87,34 +90,10 @@ height:100%;
 width:100%;
 font-size:0.9em;
 }
-.btnnhap{
-    width: 70%;
-    text-align: center;
-}
-.segment .segment-button{
-    font-family: "Helvetica Neue", "Roboto", sans-serif;
-    color: #848484;
-    border-color: #848484;
-    font-weight: bold;
-}
-.btn-warning:disabled{
-    background-color: #F7819F;
-    border-color: #F7819F;
-    
-}
-.card-header{
-    background: #FE2E9A;
-    opacity: 0.5;
-    color: white;
-    margin: 0;
-}
-ion-segment{
-    background: white;
-}
-.card-ios{
-    border-radius: 8px;
-    margin: 0 0 12px 0;
-
+.btn{
+    padding:0px 5px;
+    margin-left:-2px;
+    height: 1.5em;
 }
 
 }

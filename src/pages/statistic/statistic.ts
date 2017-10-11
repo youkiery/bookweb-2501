@@ -1,4 +1,4 @@
-import { Component, onInit, onDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database'
 
@@ -15,31 +15,54 @@ import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/databa
   selector: 'page-statistic',
   templateUrl: 'statistic.html',
 })
-export class StatisticPage implements onInit, onDestroy {
+export class StatisticPage {
   sub:any;
   statistic:string = 'day';
-  item:any;
   day:any;
   month:any;
   year:any;
-  time:any;
+
+  today:any;
+  currTime:any;
+
+  allItem:any;
+  currItem:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase) {
-	this.time = Date.now();
-	this.item = [];
-	this.sub = this.db.list('/statistic/').subscribe(item => {
-    this.item = item;
-    var l = item.length;
-    for(var i = 0; i < l; i++) {
-      var x = item[i].DateINP;
-      var y = Date.parse(x);
-      this.item.DateINP = y;
-    }
-	})
+    var x = new Date();
+    x.setHours(0);
+    x.setMinutes(0);
+    x.setSeconds(0);
+	  this.today = new Date(x);
+    this.currTime =new Date(x);
+    this.allItem = [];
+
+	  this.sub = this.db.list('/statistic/').subscribe(item => {
+      this.allItem = item;
+      var l = item.length;
+      for(var i = 0; i < l; i++) {
+        var x = item[i].DateINP;
+        var y = Date.parse(x);
+        this.allItem[i].DateINP = y;
+      }
+      this.changeDate();
+	  })
   }
-  onInit() {
+  nextDate() {
+    this.currTime.setDate(this.currTime.getDate() + 1);
+    this.changeDate();
   }
-  onDestroy() {
-    this.sub.unsubscribe();
+  prvDate() {
+    this.currTime.setDate(this.currTime.getDate() - 1);
+    this.changeDate();
+  }
+  changeDate() {
+    var x = new Date(this.currTime);
+    var y = new Date(this.currTime);
+    y.setDate(y.getDate() + 1);
+    this.currItem = this.allItem.filter((item) => {
+      var time = new Date(item.DateINP);
+		  return (time >= x && time <= y);
+    })
   }
 
   ionViewDidLoad() {

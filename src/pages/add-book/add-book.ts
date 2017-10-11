@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit,OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController,ToastController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { ImagePicker } from '@ionic-native/image-picker';
@@ -89,6 +89,7 @@ export class AddBookPage{
 				if(this.Point==null){
 					this.Point=0;
 				}
+				
 				if(typeof(this.Price) == 'string') {
 					this.Price = parseInt(this.Price);
 				}
