@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { Login } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
+import { StatisticPage } from '../pages/statistic/statistic';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import firebase from 'firebase/app';
@@ -55,8 +56,7 @@ const authObserver = afAuth.authState.subscribe( user => {
 
     this.pages = [
       { title: 'TRANG CHỦ', component: TabsPage,count:0 },
-      { title: 'THỐNG KÊ', component: ListPage,count:0 },
-	  
+      { title: 'THỐNG KÊ', component: StatisticPage,count:0 },
     ];
 
     events.subscribe('profile', user=>{

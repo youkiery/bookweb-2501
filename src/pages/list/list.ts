@@ -47,20 +47,12 @@ export class ListPage implements OnInit,OnDestroy,OnChanges{
 onBlur(ev){
 	//console.log(ev);
 	this.hidden = !this.hidden;
-<<<<<<< HEAD
-/*
-=======
->>>>>>> Huyen1
 	this.myInput = "";
 	this.Subs = this.customersObs.subscribe(data=>{
 		this.customers = data;
 		
 	})
-<<<<<<< HEAD
-*/	
-=======
 	
->>>>>>> Huyen1
 } 
 onFocus(ev){
 	//console.log(ev);

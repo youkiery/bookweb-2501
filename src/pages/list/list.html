@@ -46,14 +46,11 @@
   <strong>[Lỗi]:</strong> Bạn chưa chọn sách!
   </div>
 </ng-template>
-<div padding class="text-align:left">
-<ion-label>DANH SÁCH KHÁCH HÀNG</ion-label>
+<div padding class="dskhachhang">
+<ion-label style="text-align:center;color:white;">DANH SÁCH KHÁCH HÀNG</ion-label>
 </div>
 		 <ion-list>
-<<<<<<< HEAD
-=======
-		 <a href="#abook" >
->>>>>>> Huyen1
+		 <a href="#abook">
     <button ion-item *ngFor="let customer of customers" (tap)="SelectCus($event, customer.$key,customer.Name)">
       <ion-icon name="md-person"></ion-icon>
       {{customer.Name}} 
@@ -61,9 +58,6 @@
         {{customer.Point}}
       </div>
     </button>
-<<<<<<< HEAD
-=======
 	</a>
->>>>>>> Huyen1
   </ion-list>
 </ion-content>

@@ -24,17 +24,20 @@ export class StatisticPage implements onInit, onDestroy {
   year:any;
   time:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase) {
-  }
-  onInit() {
-/*
-  var date = new Date();
-	this.time = date.now();
-	console.log(this.time, this.time.toLocaleString());
+	this.time = Date.now();
 	this.item = [];
 	this.sub = this.db.list('/statistic/').subscribe(item => {
-	  this.item = item;
+    this.item = item;
+    var l = item.length;
+    for(var i = 0; i < l; i++) {
+      var x = item[i].DateINP;
+      var y = Date.parse(x);
+      this.item.DateINP = y;
+    }
 	})
-*/  }
+  }
+  onInit() {
+  }
   onDestroy() {
     this.sub.unsubscribe();
   }
