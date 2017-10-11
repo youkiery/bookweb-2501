@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+
+=======
 import { IonicPage, NavController, NavParams,AlertController,ToastController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import {FirebaseListObservable, AngularFireDatabase} from 'angularfire2/database';
+>>>>>>> Huyen1
 /**
  * Generated class for the AddCustomerPage page.
  *
@@ -18,6 +24,11 @@ export class AddCustomerPage {
 	Name:string;
 	Birthday: any;
 	Address:string;
+<<<<<<< HEAD
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authData: AuthServiceProvider) {
+	  this.Birthday = new Date(2017,1,1);
+=======
 	loi:string;
 	customerObs: FirebaseListObservable<any>;
 	customer: Array<any>;
@@ -26,12 +37,28 @@ export class AddCustomerPage {
   constructor(private db: AngularFireDatabase,private ToastCtrl: ToastController,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams, public authData: AuthServiceProvider) {
 		this.Birthday = new Date(2017,1,1);
 		this.loi='';
+>>>>>>> Huyen1
   }
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad AddCustomerPage');
   }
   pushCus(){
+<<<<<<< HEAD
+	  var data={
+		  Name: this.Name,
+		  DOB: this.Birthday,
+		  Address: this.Address,
+		  PersonINP: this.authData.fetchUser()["uid"],
+		  DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
+		  Point: 0 	
+	  }
+	 this.authData.insertDBFree("Inventory/CUSTOMER/",data);
+	 console.log("Thành Công!");
+
+  }
+
+=======
 		var kt=1;
 		if(this.Name==null){
 			this.loi='Vui lòng điền tên khách hàng!';
@@ -62,7 +89,7 @@ export class AddCustomerPage {
 				Name: this.Name,
 				DOB: this.Birthday,
 				Address: this.Address,
-				PersonINP: this.authData.fetchUser()["displayName"],
+				PersonINP: this.authData.fetchUser()["uid"],
 				DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
 				Point: 0 	
 			}
@@ -103,4 +130,5 @@ export class AddCustomerPage {
 		}
 		
 	}
+>>>>>>> Huyen1
 }

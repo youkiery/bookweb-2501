@@ -1,8 +1,15 @@
 import { Component,OnInit,OnDestroy } from '@angular/core';
+<<<<<<< HEAD
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { ImagePicker } from '@ionic-native/image-picker';
+
+=======
 import { IonicPage, NavController, NavParams,AlertController,ToastController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import {FirebaseListObservable, AngularFireDatabase} from 'angularfire2/database';
+>>>>>>> Huyen1
 
 /**
  * Generated class for the AddBookPage page.
@@ -17,11 +24,20 @@ import {FirebaseListObservable, AngularFireDatabase} from 'angularfire2/database
   templateUrl: 'add-book.html',
 })
 export class AddBookPage{
+<<<<<<< HEAD
+	Type:string;
+	Title:string;
+	Price:number;
+	Quanlity:number;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,public authData: AuthServiceProvider,private imagePicker: ImagePicker)  {
+
+=======
 	Type:any;
 	Title:string;
 	Price:number;
 	Quanlity:number;
-	point:number;
+	Diem:number;
 	loi:any;
 	booksObs: FirebaseListObservable<any>;
 	books: Array<any>;
@@ -30,6 +46,7 @@ export class AddBookPage{
   constructor(private db: AngularFireDatabase,private ToastCtrl: ToastController,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams,public authData: AuthServiceProvider,private imagePicker: ImagePicker)  {
 		this.loi='';
 		
+>>>>>>> Huyen1
   }
 
   ionViewDidLoad() {
@@ -39,6 +56,23 @@ export class AddBookPage{
   }
 }, (err) => { });    }
   pushB(){
+<<<<<<< HEAD
+	  var data = {
+		  Type: this.Type,
+		  Title: this.Title,
+		  Price: this.Price,
+		  Quanlity: this.Quanlity,
+		  Inv: 0,
+		  PersonINP: this.authData.fetchUser()["uid"],
+		  DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
+	  }
+	  this.authData.insertDBFree("Inventory/BOOKS/",data);
+	  console.log("Thành Công");
+  }
+  //ngOnInit(){}
+  //ngonDestroy(){}
+
+=======
 		var kt=1;
 		if(this.Type==null){
 			this.loi="Chưa chọn nhóm!";
@@ -80,42 +114,33 @@ export class AddBookPage{
 					this.Type=null;
 					this.Price=null;
 					this.Quanlity=null;
-					this.point=null;
+					this.Diem=null;
 				}
 				//console.log(element);
 			});
 			if(ok==1)
 			{
-				if(this.point==null){
-					this.point=0;
+				if(this.Diem==null){
+					this.Diem=0;
 				}
-				
 				var data = {		
 					Type: this.Type,
 					Title: this.Title,
-					Price: parseInt(this.Price),
-					Quanlity: parseInt(this.Quanlity),
-					Point: parseInt(this.point),
+					Price: this.Price,
+					Quanlity: this.Quanlity,
+					Diem: this.Diem,
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
 				}
 				this.authData.insertDBFree("Inventory/BOOKS/",data);
-				this.db.list('/statistic/').push({
-					key: this.books[this.books.length - 1].$key,
-					number: parseInt(this.Quanlity),
-					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
-					PersonINP: this.authData.fetchUser()["displayName"],
-					type: "import"	
-				})
-				
 				console.log("Thành Công");
 				this.presentToast();
 				this.Title=null;
 				this.Type=null;
 				this.Price=null;
 				this.Quanlity=null;
-				this.point=null;
+				this.Diem=null;
 			}
 			
 		}
@@ -125,7 +150,7 @@ export class AddBookPage{
 	//ngonDestroy(){}
 	presentToast() {
 		const toast = this.ToastCtrl.create({
-			message: 'User '+this.authData.fetchUser()["displayName"]+' thêm thành công',
+			message: 'User '+this.authData.fetchUser()["uid"]+' thêm thành công',
 			duration: 3000,
 			position: 'top'
 		});
@@ -151,4 +176,5 @@ export class AddBookPage{
 		}
 		
 	}
+>>>>>>> Huyen1
 }

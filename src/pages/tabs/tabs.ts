@@ -6,6 +6,10 @@ import { ListPage } from '../list/list';
 import { Login } from '../login/login';
 
 @Component({
+<<<<<<< HEAD
+=======
+  selector: 'page-tabs',
+>>>>>>> Huyen1
   templateUrl: 'tabs.html'
 })
 export class TabsPage implements OnInit,OnDestroy{

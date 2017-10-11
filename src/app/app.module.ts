@@ -19,7 +19,6 @@ import { SuperTabsModule } from 'ionic2-super-tabs';
 import { AddBookPage } from '../pages/add-book/add-book';
 import { AddCustomerPage } from '../pages/add-customer/add-customer';
 import { TabsPage } from '../pages/tabs/tabs';
-import { StatisticPage } from '../pages/statistic/statistic';
 import { BillPage } from '../pages/bill/bill';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,8 +49,7 @@ export const config = {
 	AddBookPage,
 	TabsPage,
 	AddCustomerPage,
-	BillPage,
-	StatisticPage
+	BillPage
   ],
   imports: [
     BrowserModule,
@@ -78,8 +76,7 @@ export const config = {
 	AddBookPage,
 	TabsPage,
 	AddCustomerPage,
-	BillPage,
-	StatisticPage
+	BillPage
   ],
   providers: [
     StatusBar,
