@@ -35,7 +35,7 @@ export class StatisticPage {
 	  this.today = new Date(x);
     this.currTime =new Date(x);
     this.allItem = [];
-x
+
 	  this.sub = this.db.list('/statistic/').subscribe(item => {
       this.allItem = item;
       var l = item.length;
