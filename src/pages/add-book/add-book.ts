@@ -21,7 +21,7 @@ export class AddBookPage{
 	Title:string;
 	Price:number;
 	Quanlity:number;
-	point:number;
+	Point:number;
 	loi:any;
 	booksObs: FirebaseListObservable<any>;
 	books: Array<any>;
@@ -80,26 +80,31 @@ export class AddBookPage{
 					this.Type=null;
 					this.Price=null;
 					this.Quanlity=null;
-					this.point=null;
+					this.Point=null;
 				}
 				//console.log(element);
 			});
 			if(ok==1)
 			{
-				if(this.point==null){
-					this.point=0;
+				if(this.Point==null){
+					this.Point=0;
 				}
+				
 				if(typeof(this.Price) == 'string') {
 					this.Price = parseInt(this.Price);
-					this.Quanlity = parseInt(this.Quanlity)
-					this.point = parseInt(this.point);
+				}
+				if(typeof(this.Quanlity) == 'string') {	
+					this.Quanlity = parseInt(this.Quanlity);	
+				}
+				if(typeof(this.Point) == 'string') {	
+					this.Point = parseInt(this.Point);
 				}
 				var data = {		
 					Type: this.Type,
 					Title: this.Title,
 					Price: this.Price,
 					Quanlity: this.Quanlity,
-					Point: this.point,
+					Point: this.Point,
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
@@ -107,7 +112,7 @@ export class AddBookPage{
 				this.authData.insertDBFree("Inventory/BOOKS/",data);
 				this.db.list('/statistic/').push({
 					key: this.books[this.books.length - 1].$key,
-					number: parseInt(this.Quanlity),
+					number: this.Quanlity,
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
 					PersonINP: this.authData.fetchUser()["displayName"],
 					type: "import"	
@@ -119,7 +124,7 @@ export class AddBookPage{
 				this.Type=null;
 				this.Price=null;
 				this.Quanlity=null;
-				this.point=null;
+				this.Point=null;
 			}
 			
 		}

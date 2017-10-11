@@ -175,7 +175,7 @@ onInput(event){
   
 	}
 	
-	sua(Title, key, price, point){
+	sua(Title, key, price, point, soluong){
 		let alert = this.alertCtrl.create({
 			title:'Sửa thông tin',
 			inputs:[
@@ -192,6 +192,11 @@ onInput(event){
 					name:'point',
 					type: 'number',
 					placeholder:'Điểm: '+point
+				},
+				{
+					name:'sl',
+					type:'number',
+					placeholder:'Số lượng thêm: 0'
 				}
 			],
 			buttons:[
@@ -206,14 +211,17 @@ onInput(event){
 						if(data.ten==null){data.ten=Title;};
 						if(data.gia==null){data.gia=price;};
 						if(data.point==null){data.point=point;}
+						if(data.sl==""){data.sl=0};
 						var d= new Date();
 						var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+						var t=soluong+parseInt(data.sl);
 						this.db.list('Inventory/BOOKS/').update(key,{
 							DateINP: s,
 							Title: data.ten,
 							point: data.point,
 							PersonINP: this.authdata.fetchUser()["displayName"],
-							Price: data.gia
+							Price: data.gia,
+							Quanlity: t
 						});
 						this.st="Sửa thành công!";
 						this.presentToast();
