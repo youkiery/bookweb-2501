@@ -1,4 +1,4 @@
-import { Component, onInit, onDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database'
 
@@ -15,7 +15,7 @@ import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/databa
   selector: 'page-statistic',
   templateUrl: 'statistic.html',
 })
-export class StatisticPage implements onInit, onDestroy {
+export class StatisticPage {
   sub:any;
   statistic:string = 'day';
   day:any;
@@ -35,7 +35,7 @@ export class StatisticPage implements onInit, onDestroy {
 	  this.today = new Date(x);
     this.currTime =new Date(x);
     this.allItem = [];
-
+x
 	  this.sub = this.db.list('/statistic/').subscribe(item => {
       this.allItem = item;
       var l = item.length;
@@ -63,11 +63,6 @@ export class StatisticPage implements onInit, onDestroy {
       var time = new Date(item.DateINP);
 		  return (time >= x && time <= y);
     })
-  }
-  onInit() {
-  }
-  onDestroy() {
-    this.sub.unsubscribe();
   }
 
   ionViewDidLoad() {
