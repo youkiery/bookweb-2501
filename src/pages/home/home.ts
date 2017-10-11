@@ -126,15 +126,29 @@ onFocus(ev){
 onInput(event){
 	//console.log(event);
 	this.Subs = this.booksObs.subscribe(item =>{
+		
 		this.books = item;
 	})
 	
- let val = event.target.value;
+	let val = event.target.value;
 
     if (val && val.trim() != '') {
       this.books = this.books.filter((item) => {
         return (item.Title.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
+	  	var book_number = this.books.length;
+		for(var i = 0; i < book_number; i++) {
+			if(item[i].Type == this.slides[0].id) {
+				this.booklists[this.slides[0].id].push(item[i]);
+			}
+			else if(item[i].Type == this.slides[1].id) {
+				this.booklists[this.slides[1].id].push(item[i]);
+			}
+			else {
+				this.booklists[this.slides[2].id].push(item[i]);
+			}
+		}
+	
     }
 	
 }
