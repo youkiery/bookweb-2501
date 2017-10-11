@@ -89,13 +89,17 @@ export class AddBookPage{
 				if(this.point==null){
 					this.point=0;
 				}
-				
+				if(typeof(this.Price) == 'string') {
+					this.Price = parseInt(this.Price);
+					this.Quanlity = parseInt(this.Quanlity)
+					this.point = parseInt(this.point);
+				}
 				var data = {		
 					Type: this.Type,
 					Title: this.Title,
-					Price: parseInt(this.Price),
-					Quanlity: parseInt(this.Quanlity),
-					Point: parseInt(this.point),
+					Price: this.Price,
+					Quanlity: this.Quanlity,
+					Point: this.point,
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
