@@ -157,8 +157,7 @@ onInput(event){
 	  this.tabs.select(1);
   }
   ButtonTap(key): any{
-	  return this.isButton[key];
-	 	 		
+	  return this.isButton[key];	 		
   }
   orderBook(Title,key,price,inv,quan){
 	 this.isButton[key] = true;
