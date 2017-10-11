@@ -36,14 +36,25 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
    
   }
   FullOrder(){
-	  for(var i=0;i<this.authData.BooksOrder().length;i++){
+	var d= new Date();
+    var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+	
+	console.log(this.authData.BooksOrder())
+	for(var i=0;i<this.authData.BooksOrder().length;i++){
 		  var q = this.authData.BooksOrder()[i].Inv + this.authData.BooksOrder()[i].sold ; 
 		  this.db.list('Inventory/BOOKS/').update(this.authData.BooksOrder()[i].key,{Inv: q });
+		  this.db.list('statistic/').push({
+			  key: this.authData.BooksOrder()[i].key,
+			  number: this.authData.BooksOrder()[i].sold,
+			  DateINP: s,
+			  PersonINP: this.authData.fetchUser()["displayName"],
+			  type: "sold"
+		  })
 	  }
 	  this.authData.Books = [];
 	 
 	  this.event.publish("Filter",1);
 	  this.navView.dismiss();
-  }
+ }
 
 }

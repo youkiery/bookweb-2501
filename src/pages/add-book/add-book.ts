@@ -21,7 +21,7 @@ export class AddBookPage{
 	Title:string;
 	Price:number;
 	Quanlity:number;
-	Diem:number;
+	point:number;
 	loi:any;
 	booksObs: FirebaseListObservable<any>;
 	books: Array<any>;
@@ -80,21 +80,21 @@ export class AddBookPage{
 					this.Type=null;
 					this.Price=null;
 					this.Quanlity=null;
-					this.Diem=null;
+					this.point=null;
 				}
 				//console.log(element);
 			});
 			if(ok==1)
 			{
-				if(this.Diem==null){
-					this.Diem=0;
+				if(this.point==null){
+					this.point=0;
 				}
 				var data = {		
 					Type: this.Type,
 					Title: this.Title,
-					Price: this.Price,
-					Quanlity: this.Quanlity,
-					Diem: this.Diem,
+					Price: parseInt(this.Price),
+					Quanlity: parseInt(this.Quanlity),
+					point: parseInt(this.point),
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
@@ -106,7 +106,7 @@ export class AddBookPage{
 				this.Type=null;
 				this.Price=null;
 				this.Quanlity=null;
-				this.Diem=null;
+				this.point=null;
 			}
 			
 		}

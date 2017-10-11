@@ -175,7 +175,7 @@ onInput(event){
   
 	}
 	
-	sua(Title, key, price, Diem){
+	sua(Title, key, price, point){
 		let alert = this.alertCtrl.create({
 			title:'Sửa thông tin',
 			inputs:[
@@ -189,9 +189,9 @@ onInput(event){
 					placeholder:'Giá: '+price
 				},
 				{
-					name:'diem',
+					name:'point',
 					type: 'number',
-					placeholder:'Điểm: '+Diem
+					placeholder:'Điểm: '+point
 				}
 			],
 			buttons:[
@@ -205,13 +205,13 @@ onInput(event){
           handler: data => {
 						if(data.ten==null){data.ten=Title;};
 						if(data.gia==null){data.gia=price;};
-						if(data.diem==null){data.diem=Diem;}
+						if(data.point==null){data.point=point;}
 						var d= new Date();
-            var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+						var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
 						this.db.list('Inventory/BOOKS/').update(key,{
 							DateINP: s,
 							Title: data.ten,
-							Diem: data.diem,
+							point: data.point,
 							PersonINP: this.authdata.fetchUser()["displayName"],
 							Price: data.gia
 						});
@@ -252,6 +252,13 @@ onInput(event){
 								DateINP: s,
 								PersonINP: this.authdata.fetchUser()["displayName"],
 								Quanlity: t
+							});
+							this.db.list('/statistic/').push({
+								key: key,
+								number: parseInt(data.sl),
+								DateINP: s,
+								PersonINP: this.authData.fetchUser()["displayName"],
+								type: "import"
 							});
 							this.st="Nhập thành công!";
 							this.presentToast();
