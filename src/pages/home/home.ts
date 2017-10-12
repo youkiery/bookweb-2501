@@ -29,23 +29,17 @@ export class HomePage implements OnInit,OnDestroy {
   isButton: any = {};
   st:string;
   booklists: any;
+  button:any;
   
   constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
 
 }
 ngOnInit(){
-	
 	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
 	this.events.subscribe("Filter",ids=>{
-		if(ids ===1){
-		this.isButton = {};
-		}
-		else{
-			console.log(this.isButton);
-			console.log(ids);
-			this.isButton[ids] = false;
-			console.log(this.isButton);
+		if(ids ===1) {
+			this.authData.isButton = JSON.parse(JSON.stringify(this.button));
 		}
 		})
 	this.slides = [
@@ -65,11 +59,13 @@ ngOnInit(){
 	this.selectedSegment = this.slides[0].id;
 	this.booksObs = this.db.list('Inventory/BOOKS/');
 	this.Subs = this.booksObs.subscribe(item =>{
+		console.log(this.authData)
 		this.books = item;
 		this.booklists = [];
 		this.slides.forEach(type => {
 			this.booklists[type.id] = []
 		})
+		this.button = [];
 		var book_number = item.length;
 		for(var i = 0; i < book_number; i++) {
 			if(item[i].Type == this.slides[0].id) {
@@ -81,7 +77,12 @@ ngOnInit(){
 			else {
 				this.booklists[this.slides[2].id].push(item[i]);
 			}
+			this.button[item[i].$key] = false;
 		}
+		if(this.authData.isButton == undefined) {
+			this.authData.isButton =  JSON.parse(JSON.stringify(this.button));
+		}
+		
 	})
 }
 ionViewDidEnter(){
@@ -157,10 +158,12 @@ onInput(event){
 	  this.tabs.select(1);
   }
   ButtonTap(key): any{
-	  return this.isButton[key];	 		
+	return this.authData.isButton[key];	 		
   }
   orderBook(Title,key,price,inv,quan){
-	 this.isButton[key] = true;
+	  
+	  this.authData.isButton[key] = true;
+	  //this.isButton[key] = true;
 	  this.checkDiv = true;
 	  console.log();
 	  var data = {

@@ -16,6 +16,7 @@ export class AuthServiceProvider {
 public fireAuth: any;
 public userData: any;
 public Books = [];
+public isButton = [];
   constructor(public afAuth: AngularFireAuth, public platform: Platform, public events:Events,private alertCtrl: AlertController, private toastCtrl: ToastController,private fb:Facebook) {
 
   }
