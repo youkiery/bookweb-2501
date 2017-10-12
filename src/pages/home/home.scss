@@ -90,6 +90,7 @@ font-size:0.9em;
 .btnnhap{
     width: 70%;
     text-align: center;
+    height: 30px;
 }
 .segment .segment-button{
     font-family: "Helvetica Neue", "Roboto", sans-serif;
@@ -107,13 +108,17 @@ font-size:0.9em;
     opacity: 0.5;
     color: white;
     margin: 0;
+    height: 40px;
+    padding:10px;
 }
 ion-segment{
     background: white;
 }
 .card-ios{
     border-radius: 8px;
-    margin: 0 0 12px 0;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
 
 }
 
