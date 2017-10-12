@@ -27,55 +27,71 @@
 			Năm
 		</ion-segment-button>
 	</ion-segment>
-	<div [ngSwitch]="statistic">
-		<ion-list *ngSwitchCase="'date'">
-			<div (click)="nextDate()">
-				next
-			</div>
-			<div (click)="prvDate()">
-				previous
-			</div>
-			<div>
-				{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-			</div>
-		</ion-list>
-		
-		<ion-list *ngSwitchCase="'month'">
-			<div (click)="nextMonth()">
-				next
-			</div>
-			<div (click)="prvMonth()">
-				previous
-			</div>
-			<div>
-				{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-			</div>
-		</ion-list>
-		
-		<ion-list *ngSwitchCase="'year'">
-			<div (click)="nextYear()">
-				next
-			</div>
-			<div (click)="prvYear()">
-				previous
-			</div>
-			<div>
-				{{currTime.getFullYear()}}
-			</div>
-		</ion-list>
 		<ion-card>
-			<ion-card-header>
-				<div class="container">
-					<div class="row">
-						Lợi nhuận: {{increase |number:'.0-2'}}
-					</div>
-				</div>	
+			<ion-card-header style="background:#f8a;">
+				<div [ngSwitch]="statistic">
+					<ion-list *ngSwitchCase="'date'">
+						<ion-row>
+							<ion-col>
+								<button ion-button (click)="nextDate()" color="primary">
+									next
+								</button>
+							</ion-col>
+							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+								{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+							</ion-col>
+							<ion-col>
+								<button ion-button style="float:right;" (click)="prvDate()" color="secondary">
+									previous
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-list>
+						
+					<ion-list *ngSwitchCase="'month'">
+						<ion-row>
+							<ion-col>
+								<button ion-button (click)="nextMonth()" color="primary">
+									next
+								</button>
+							</ion-col>
+							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+								{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+							</ion-col>
+							<ion-col>
+								<button ion-button style="float:right;" (click)="prvMonth()" color="secondary">
+									previous
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-list>
+						
+					<ion-list *ngSwitchCase="'year'">
+						<ion-row>
+							<ion-col>
+								<button ion-button (click)="nextYear()" color="primary">
+									next
+								</button>
+							</ion-col>
+							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+								{{currTime.getFullYear()}}
+							</ion-col>
+							<ion-col>
+								<button ion-button style="float:right;" (click)="prvYear()" color="secondary">
+									previous
+								</button>
+							</ion-col>
+						</ion-row>
+					</ion-list>
+				</div>
+				<div style="text-align:center; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+					Lợi nhuận: {{increase |number:'.0-2'}}
+				</div>
 			</ion-card-header>
 			<ion-card-content>
-			<ion-item *ngFor="let item of currItem">
-				{{books[item.key].Title}}: {{books[item.key].total}}
+			<ion-item *ngFor="let item of currItem; let i = index;">
+				{{i + 1}}. {{books[item.key].Title}}: {{books[item.key].total}}
 			</ion-item>
 			</ion-card-content>
 		</ion-card>
-	</div>
 </ion-content>
