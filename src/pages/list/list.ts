@@ -15,8 +15,9 @@ export class ListPage implements OnInit,OnDestroy,OnChanges{
   customersObs: FirebaseListObservable<any>;
   customers: Array<any>=[];
   cusname: string = "Khách";
-   DataS: Array<any>=[];
-
+  DataS: Array<any>=[];
+  
+  onIn:number;
   Subs: any;
   hidden:boolean;
   myInput:any;
@@ -24,6 +25,7 @@ export class ListPage implements OnInit,OnDestroy,OnChanges{
 	
   }
   ngOnInit(){
+    this.onIn = 0;
 	  this.events.subscribe("Filter",dt=>{
 		  this.DataS = this.authData.BooksOrder();
 	  });
@@ -46,6 +48,7 @@ export class ListPage implements OnInit,OnDestroy,OnChanges{
   }
 onBlur(ev){
 	//console.log(ev);
+	this.onIn = 0;
 	this.hidden = !this.hidden;
 	this.myInput = "";
 	this.Subs = this.customersObs.subscribe(data=>{
@@ -60,6 +63,7 @@ onFocus(ev){
 	
 }
 onInput(event){
+	this.onIn = 1;
 	this.Subs = this.customersObs.subscribe(data=>{
 		this.customers = data;
 		

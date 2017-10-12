@@ -18,11 +18,13 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
 	<div align="right" class="btnNhap">
 
 </div>
 <div class="alert alert-success" id="abook" *ngIf = "DataS.length > 0 ; else error">
+<div *ngIf="onIn == 0">
 
 
   <p><strong>{{cusname}}</strong> đặt mua:</p>
@@ -38,6 +40,7 @@
 </ion-row>  
 <div padding-top="0.3em">
 <button ion-button color="danger" (tap) = "BuyConfirm()" round>XÁC NHẬN MUA</button>
+</div>
 </div>
 </div>
 

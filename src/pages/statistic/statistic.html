@@ -16,8 +16,8 @@
 </ion-header>
 
 <ion-content padding>
-	<ion-segment [(ngModel)]="statistic">
-		<ion-segment-button value="day">
+	<ion-segment [(ngModel)]="statistic" (click)="changeTab()">
+		<ion-segment-button value="date">
 			Ngày
 		</ion-segment-button>
 		<ion-segment-button value="month">
@@ -28,7 +28,7 @@
 		</ion-segment-button>
 	</ion-segment>
 	<div [ngSwitch]="statistic">
-		<ion-list *ngSwitchCase="'day'">
+		<ion-list *ngSwitchCase="'date'">
 			<div (click)="nextDate()">
 				next
 			</div>
@@ -37,11 +37,9 @@
 			</div>
 			<div>
 				{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-				<div *ngFor="let date of currItem">
-					{{date.DateINP}}
-				</div>
 			</div>
 		</ion-list>
+		
 		<ion-list *ngSwitchCase="'month'">
 			<div (click)="nextMonth()">
 				next
@@ -49,7 +47,11 @@
 			<div (click)="prvMonth()">
 				previous
 			</div>
+			<div>
+				{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+			</div>
 		</ion-list>
+		
 		<ion-list *ngSwitchCase="'year'">
 			<div (click)="nextYear()">
 				next
@@ -57,6 +59,23 @@
 			<div (click)="prvYear()">
 				previous
 			</div>
+			<div>
+				{{currTime.getFullYear()}}
+			</div>
 		</ion-list>
+		<ion-card>
+			<ion-card-header>
+				<div class="container">
+					<div class="row">
+						Lợi nhuận: {{increase |number:'.0-2'}}
+					</div>
+				</div>	
+			</ion-card-header>
+			<ion-card-content>
+			<ion-item *ngFor="let item of currItem">
+				{{books[item.key].Title}}: {{books[item.key].total}}
+			</ion-item>
+			</ion-card-content>
+		</ion-card>
 	</div>
 </ion-content>
