@@ -18,30 +18,30 @@
 <ion-list>
 {{exp}}
   <ion-item>
-    <ion-label>Nhóm</ion-label>
+    <ion-label style="font-weight: bold;">Nhóm</ion-label>
     <!-- <ion-input [(ngModel)] = "Type" name="Type" type="text"></ion-input> -->
-    <ion-select [(ngModel)]="Type" name="Type">
-      <ion-option value="book">BOOK</ion-option>
+    <ion-select [(ngModel)]="Type" name="Type" >
+      <ion-option value="book">SÁCH</ion-option>
       <ion-option value="earpipe">ỐNG NGHE</ion-option>
       <ion-option value="other">KHÁC</ion-option>
     </ion-select>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Tên</ion-label>
-    <ion-input [(ngModel)] = "Title" name="Title" type="text" ></ion-input>
+    <ion-label floating style="font-weight: bold;">Tên</ion-label>
+    <ion-input [(ngModel)] = "Title" name="Title" type="text"  ></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label  floating>Giá</ion-label>
+    <ion-label  floating style="font-weight: bold;">Giá</ion-label>
     <ion-input  [(ngModel)] = "Price" type="number" name="Price"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label floating>Số lượng</ion-label>
-    <ion-input [(ngModel)] = "Quanlity" name="Quanlity" type="number"></ion-input>
+    <ion-label floating style="font-weight: bold;">Số lượng</ion-label>
+    <ion-input [(ngModel)] = "Quanlity" name="Quanlity" type="number" ></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label floating>Điểm</ion-label>
-    <ion-input [(ngModel)] = "point" name="point" type="number"></ion-input>
+    <ion-label floating style="font-weight: bold;">Điểm</ion-label>
+    <ion-input [(ngModel)] = "point" name="point" type="number" ></ion-input>
   </ion-item>
 
 </ion-list>

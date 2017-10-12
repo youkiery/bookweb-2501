@@ -29,17 +29,23 @@ export class HomePage implements OnInit,OnDestroy {
   isButton: any = {};
   st:string;
   booklists: any;
-  button:any;
   
   constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
 
 }
 ngOnInit(){
+	
 	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
 	this.events.subscribe("Filter",ids=>{
-		if(ids ===1) {
-			this.authData.isButton = JSON.parse(JSON.stringify(this.button));
+		if(ids ===1){
+		this.isButton = {};
+		}
+		else{
+			console.log(this.isButton);
+			console.log(ids);
+			this.isButton[ids] = false;
+			console.log(this.isButton);
 		}
 		})
 	this.slides = [
@@ -59,13 +65,11 @@ ngOnInit(){
 	this.selectedSegment = this.slides[0].id;
 	this.booksObs = this.db.list('Inventory/BOOKS/');
 	this.Subs = this.booksObs.subscribe(item =>{
-		console.log(this.authData)
 		this.books = item;
 		this.booklists = [];
 		this.slides.forEach(type => {
 			this.booklists[type.id] = []
 		})
-		this.button = [];
 		var book_number = item.length;
 		for(var i = 0; i < book_number; i++) {
 			if(item[i].Type == this.slides[0].id) {
@@ -77,12 +81,7 @@ ngOnInit(){
 			else {
 				this.booklists[this.slides[2].id].push(item[i]);
 			}
-			this.button[item[i].$key] = false;
 		}
-		if(this.authData.isButton == undefined) {
-			this.authData.isButton =  JSON.parse(JSON.stringify(this.button));
-		}
-		
 	})
 }
 ionViewDidEnter(){
@@ -158,12 +157,10 @@ onInput(event){
 	  this.tabs.select(1);
   }
   ButtonTap(key): any{
-	return this.authData.isButton[key];	 		
+	  return this.isButton[key];	 		
   }
   orderBook(Title,key,price,inv,quan){
-	  
-	  this.authData.isButton[key] = true;
-	  //this.isButton[key] = true;
+	 this.isButton[key] = true;
 	  this.checkDiv = true;
 	  console.log();
 	  var data = {
@@ -179,6 +176,7 @@ onInput(event){
 	}
 	
 	sua(Title, key, price, point, soluong){
+		//this.authData.alertText(0,"");
 		let alert = this.alertCtrl.create({
 			title:'Sửa thông tin',
 			inputs:[
@@ -192,14 +190,14 @@ onInput(event){
 					placeholder:'Giá: '+price
 				},
 				{
-					name:'point',
+					name:'diem',
 					type: 'number',
 					placeholder:'Điểm: '+point
 				},
 				{
 					name:'sl',
 					type:'number',
-					placeholder:'Số lượng thêm: 0'
+					placeholder:'Số lượng: 0'
 				}
 			],
 			buttons:[
@@ -211,9 +209,9 @@ onInput(event){
 				{
 					text: 'Chấp nhận',
           handler: data => {
-						if(data.ten==null){data.ten=Title;};
-						if(data.gia==null){data.gia=price;};
-						if(data.point==null){data.point=point;}
+						if(data.ten==""){data.ten=Title;};
+						if(data.gia==""){data.gia=price;};
+						if(data.diem==""){data.diem=point;}
 						if(data.sl==""){data.sl=0};
 						var d= new Date();
 						var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
@@ -221,12 +219,12 @@ onInput(event){
 						this.db.list('Inventory/BOOKS/').update(key,{
 							DateINP: s,
 							Title: data.ten,
-							point: data.point,
+							Point: data.diem,
 							PersonINP: this.authdata.fetchUser()["displayName"],
 							Price: data.gia,
 							Quanlity: t
 						});
-						this.st="Sửa thành công!";
+						this.st="Thành công!";
 						this.presentToast();
 					}
 				}
@@ -234,60 +232,7 @@ onInput(event){
 		});
 		alert.present();
 	}
-  nhap(Title,key,soluong){
-		let alert = this.alertCtrl.create({
-			title:'Nhập số lượng',
-			message:'Sách '+Title,
-			inputs:[
-				{
-					name:'sl',
-					type:'number',
-					placeholder:'0'
-				}
-			],
-			buttons:[
-				{
-          text: 'Hủy',
-          role: 'cancel',
-          handler: data => {}
-				},
-				{
-					text: 'Chấp nhận',
-          handler: data => {
-						if(data.sl!=null){
-							var d= new Date();
-							var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
-							var t=soluong+parseInt(data.sl);
-							
-							this.db.list('Inventory/BOOKS/').update(key,{
-								DateINP: s,
-								PersonINP: this.authdata.fetchUser()["displayName"],
-								Quanlity: t
-							});
-							this.db.list('/statistic/').push({
-								key: key,
-								number: parseInt(data.sl),
-								DateINP: s,
-								PersonINP: this.authData.fetchUser()["displayName"],
-								type: "import"
-							});
-							/*
-							this.db.list('/Inventory/BOOKS/' + this.books[this.books.length - 1].$key + '/log/').push({
-								number: parseInt(this.Quanlity),
-								DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
-								PersonINP: this.authData.fetchUser()["displayName"],
-							})
-							*/
-							this.st="Nhập thành công!";
-							this.presentToast();
-						}else{};
-						
-					}
-				}
-			]
-		});
-		alert.present();
-	} 
+  
 	presentToast() {
 		const toast = this.ToastCtrl.create({
 			message: 'User '+this.authData.fetchUser()["displayName"]+' '+this.st,
