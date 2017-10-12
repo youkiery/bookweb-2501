@@ -21,6 +21,9 @@ export class StatisticPage {
   day:any;
   month:any;
   year:any;
+  
+  minTime:any;
+  maxTime:any;
 
   today:any;
   currTime:any;
@@ -36,28 +39,58 @@ export class StatisticPage {
     this.currTime =new Date(x);
     this.allItem = [];
 
-	  this.sub = this.db.list('/statistic/').subscribe(item => {
+	this.sub = this.db.list('/statistic/').subscribe(item => {
       this.allItem = item;
       var l = item.length;
+	  var min = 0, max = 0;
       for(var i = 0; i < l; i++) {
         var x = item[i].DateINP;
         var y = Date.parse(x);
-        this.allItem[i].DateINP = y;
       }
-      this.changeDate();
-	  })
+	  if(max < y) {
+	  	max = y;
+	  }
+	  if(min == 0) {
+	  	min = y;
+	  }
+	  else if(min > y) {
+	  	min = y;
+	  }
+	 
+      this.allItem[i].DateINP = y;
+      this.changeTime();
+	})
   }
+  
   nextDate() {
     this.currTime.setDate(this.currTime.getDate() + 1);
-    this.changeDate();
+    this.changeTime();
   }
   prvDate() {
     this.currTime.setDate(this.currTime.getDate() - 1);
-    this.changeDate();
+    this.changeTime();
   }
-  changeDate() {
+  nextMonth() {
+    this.currTime.setMonth(this.currTime.getMonth() + 1);
+    this.changeTime();
+  }
+  prvMonth() {
+    this.currTime.setDate(this.currTime.getMonth() - 1);
+    this.changeTime();
+  }
+  nextYear() {
+    this.currTime.setFullYear(this.currTime.getFullYear() + 1);
+    this.changeTime();
+  }
+  prvYear() {
+    this.currTime.setFullYear(this.currTime.getFullYear() - 1);
+    this.changeTime();
+  }
+  
+  changeTime() {
     var x = new Date(this.currTime);
     var y = new Date(this.currTime);
+  if(1){}
     y.setDate(y.getDate() + 1);
     this.currItem = this.allItem.filter((item) => {
       var time = new Date(item.DateINP);

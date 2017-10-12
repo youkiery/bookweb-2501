@@ -32,21 +32,31 @@
 			<div (click)="nextDate()">
 				next
 			</div>
+			<div (click)="prvDate()">
+				previous
+			</div>
 			<div>
 				{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
 				<div *ngFor="let date of currItem">
 					{{date.DateINP}}
 				</div>
 			</div>
-			<div (click)="prvDate()">
+		</ion-list>
+		<ion-list *ngSwitchCase="'month'">
+			<div (click)="nextMonth()">
+				next
+			</div>
+			<div (click)="prvMonth()">
 				previous
 			</div>
 		</ion-list>
-		<ion-list *ngSwitchCase="'month'">
-		
-		</ion-list>
 		<ion-list *ngSwitchCase="'year'">
-		
+			<div (click)="nextYear()">
+				next
+			</div>
+			<div (click)="prvYear()">
+				previous
+			</div>
 		</ion-list>
 	</div>
 </ion-content>
