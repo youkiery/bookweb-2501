@@ -55,6 +55,7 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
 	 
 	  this.event.publish("Filter",1);
 	  this.authData.isButton = [];
+	  this.authData.isButton = {};
 	  this.navView.dismiss();
  }
 
