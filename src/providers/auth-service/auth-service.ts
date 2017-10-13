@@ -16,7 +16,7 @@ export class AuthServiceProvider {
 public fireAuth: any;
 public userData: any;
 public Books = [];
-public isButton = [];
+public isButton:any = {};
   constructor(public afAuth: AngularFireAuth, public platform: Platform, public events:Events,private alertCtrl: AlertController, private toastCtrl: ToastController,private fb:Facebook) {
 
   }
@@ -105,7 +105,7 @@ resetPassword(email: string): firebase.Promise<any> {
 
 loginFB() {
    console.log(this.platform.is('cordova'));
-        if (this.platform.is('android')) {
+        if (this.platform.is('android') || this.platform.is('ios')) {
             return this.fb.login(['email'])
                 .then(response => {
                 var facebookCredential = firebase.auth.FacebookAuthProvider
