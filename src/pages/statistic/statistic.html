@@ -30,58 +30,52 @@
 		<ion-card>
 			<ion-card-header style="background:#f8a;">
 				<div [ngSwitch]="statistic">
-					<ion-list *ngSwitchCase="'date'">
-						<ion-row>
-							<ion-col>
+					<ion-list *ngSwitchCase="'date'" class="contain">
+							<div class="left">
 								<button ion-button (click)="prvDate()" color="secondary">
 									previous
 								</button>
-							</ion-col>
-							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+							</div>
+							<div class="center">
 								{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-							</ion-col>
-							<ion-col>
-								<button ion-button style="float:right;" (click)="nextDate()" color="primary">
+							</div>
+							<div class="right">
+								<button ion-button (click)="nextDate()" color="primary">
 									next
 								</button>
-							</ion-col>
-						</ion-row>
+							</div>
 					</ion-list>
 						
-					<ion-list *ngSwitchCase="'month'">
-						<ion-row>
-							<ion-col>
+					<ion-list *ngSwitchCase="'month'" class="contain">
+							<div class="left">
 								<button ion-button (click)="prvMonth()" color="secondary">
 									previous
 								</button>
-							</ion-col>
-							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+							</div>
+							<div  class="center">
 								{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-							</ion-col>
-							<ion-col>
-								<button ion-button style="float:right;" (click)="nextMonth()" color="primary">
+							</div>
+							<div class="right">
+								<button ion-button (click)="nextMonth()" color="primary">
 									next
 								</button>
-							</ion-col>
-						</ion-row>
+							</div>
 					</ion-list>
 						
-					<ion-list *ngSwitchCase="'year'">
-						<ion-row>
-							<ion-col>
+					<ion-list *ngSwitchCase="'year'" class="contain">
+							<div class="left">
 								<button ion-button (click)="prvYear()" color="secondary">
 									previous
 								</button>
-							</ion-col>
-							<ion-col style="text-align:center;; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
+							</div>
+							<div class="center">
 								{{currTime.getFullYear()}}
-							</ion-col>
-							<ion-col>
-								<button ion-button style="float:right;" (click)="nextYear()" color="primary">
+							</div>
+							<div class="right">
+								<button ion-button (click)="nextYear()" color="primary">
 									next
 								</button>
-							</ion-col>
-						</ion-row>
+							</div>
 					</ion-list>
 				</div>
 				<div style="text-align:center; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
