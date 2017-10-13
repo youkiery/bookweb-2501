@@ -1,4 +1,8 @@
-import { Component,ViewChild,OnInit,OnDestroy  } from '@angular/core';
+import { Component,ViewChild,OnInit,OnDestroy,  trigger,
+  state,
+  style,
+  animate,
+  transition,keyframes  } from '@angular/core';
 import { NavController,Slides,Events, NavParams,Tabs, AlertController, ToastController } from 'ionic-angular';
 //import { SuperTabsModule } from 'ionic2-super-tabs';
 import { SignupPage } from '../signup/signup';
@@ -10,7 +14,21 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  animations: [
+    trigger('bounce', [
+      state('bouncing', style({
+        transform: 'translate3d(0,0,0)'
+      })),
+      transition('* => *', [
+        animate('300ms ease-in', keyframes([
+          style({transform: 'translate3d(0,0,0)', offset: 0}),
+          style({transform: 'translate3d(0,-10px,0)', offset: 0.5}),
+          style({transform: 'translate3d(0,0,0)', offset: 1})
+        ]))
+      ])
+    ])
+  ]
 })
 export class HomePage implements OnInit,OnDestroy {
 
@@ -29,8 +47,9 @@ export class HomePage implements OnInit,OnDestroy {
   isButton: any = {};
   st:string;
   booklists: any;
+  bounceState: String = 'noBounce';
   
-  constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, private authdata: AuthServiceProvider) {
+  constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams) {
 
 }
 ngOnInit(){
@@ -38,15 +57,12 @@ ngOnInit(){
 	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
 	this.events.subscribe("Filter",ids=>{
-		if(ids ===1){
-		this.isButton = {};
-		}
-		else{
+		
 			console.log(this.isButton);
 			console.log(ids);
 			this.isButton[ids] = false;
 			console.log(this.isButton);
-		}
+		
 		})
 	this.slides = [
       {
@@ -85,7 +101,8 @@ ngOnInit(){
 	})
 }
 ionViewDidEnter(){
-	this.BooksOrder = this.authdata.BooksOrder();
+	this.BooksOrder = this.authData.BooksOrder();
+	this.isButton = this.authData.isButton;
 }
 ngOnDestroy(){
 	console.log('OK');
@@ -162,6 +179,8 @@ onInput(event){
   orderBook(Title,key,price,inv,quan){
 	 this.isButton[key] = true;
 	  this.checkDiv = true;
+	  this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 
+
 	  console.log();
 	  var data = {
 		  Title: Title,
@@ -171,7 +190,7 @@ onInput(event){
 		  Inv: inv,
 		  Quanlity: parseInt(quan)
 	  }
-		this.authdata.BooksPush(data);
+		this.authData.BooksPush(data);
   
 	}
 	
@@ -220,7 +239,7 @@ onInput(event){
 							DateINP: s,
 							Title: data.ten,
 							Point: data.diem,
-							PersonINP: this.authdata.fetchUser()["displayName"],
+							PersonINP: this.authData.fetchUser()["displayName"],
 							Price: data.gia,
 							Quanlity: t
 						});

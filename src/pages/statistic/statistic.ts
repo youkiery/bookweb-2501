@@ -60,7 +60,7 @@ export class StatisticPage {
             var x = item[i].DateINP;
             var y = Date.parse(x);
             
-            this.allItem[i].DateINP = y;
+            this.allItem[i].DateINP = x;
             
             if(max < y) {
               max = y;

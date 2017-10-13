@@ -11,8 +11,8 @@
 				<button class="btn btn-primary" id="btnNhap" (tap) = "pushBook()" >SÁCH <ion-icon name="md-add"></ion-icon></button>
 			</ion-col>
 			<ion-col *ngIf = "!(hidden)" col-2 align-self-center style="text-align:center;padding-right:1em">
-				<button class="btn btn-link" (tap) = "pushOrder()" >
-					<i class="fa fa-shopping-cart" aria-hidden="true" style="font-size:3em"></i>
+				<button class="btn btn-link" (tap) = "pushOrder()"  >
+					<i class="fa fa-shopping-cart" aria-hidden="true" [@bounce]="bounceState" style="font-size:3em"></i>
 					<span style ="font-size:1.2em; position:absolute; margin-top:0.3em;margin-left:-0.5em"	class="badge badge-pill badge-info">
 						{{BooksOrder.length}}
 					</span>

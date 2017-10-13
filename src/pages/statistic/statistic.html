@@ -28,7 +28,7 @@
 		</ion-segment-button>
 	</ion-segment>
 		<ion-card>
-			<ion-card-header style="background:#f8a;">
+			<ion-card-header style="background:#f8a;padding-bottom: 0;">
 				<div [ngSwitch]="statistic">
 					<ion-list *ngSwitchCase="'date'" class="contain">
 							<div class="left">
@@ -78,14 +78,39 @@
 							</div>
 					</ion-list>
 				</div>
-				<div style="text-align:center; color:white; font-size:1.5em; font-weight:bold;margin:8px;">
-					Lợi nhuận: {{increase |number:'.0-2'}}
+				<div style="text-align:center; color:white; font-weight:bold">
+					Lợi nhuận:<br>{{increase |number:'.0-2'}}
 				</div>
 			</ion-card-header>
 			<ion-card-content>
-			<ion-item *ngFor="let item of currItem; let i = index;">
-				{{i + 1}}. {{books[item.key].Title}}: {{books[item.key].total}}
-			</ion-item>
+			<ion-row style="background: seagreen;">
+				<ion-col col-2>
+					STT
+				</ion-col>
+				<ion-col col-4>
+					Tên
+				</ion-col>
+				<ion-col col-3>
+					Số lượng
+				</ion-col>
+				<ion-col col-3>
+					Thời gian
+				</ion-col>
+			</ion-row>
+			<ion-row *ngFor="let item of currItem; let i = index;">
+				<ion-col col-2>
+					{{i + 1}}
+				</ion-col>
+				<ion-col col-4>
+					{{books[item.key].Title}}
+				</ion-col>
+				<ion-col col-3>
+					{{item.number}}
+				</ion-col>
+				<ion-col col-3>
+					{{item.DateINP | date: "HH:mm:ss"}}
+				</ion-col>
+			</ion-row>
 			</ion-card-content>
 		</ion-card>
 </ion-content>
