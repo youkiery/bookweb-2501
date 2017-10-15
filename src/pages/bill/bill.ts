@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController,Events } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import {FirebaseListObservable,AngularFireDatabase} from 'angularfire2/database';
+import * as $ from 'jquery';
 
 
 
@@ -33,7 +34,10 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
    for(var i =0 ; i< this.BillBook.length;i++){
 	  this.TotalBill += parseInt(this.BillBook[i].Price)*this.BillBook[i].sold;
    }
-   
+
+
+  
+
   }
   FullOrder(){
 	var d= new Date();

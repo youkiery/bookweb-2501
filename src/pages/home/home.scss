@@ -74,8 +74,17 @@ ion-card ion-card-header{
 align:left;
 }
 #RowCol{
- text-transform: uppercase;
+
+text-transform: uppercase;
 width: 400px; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;text-align:left;font-weight:bold
+}
+#RowColNone{
+ text-transform: uppercase;
+ text-align:left;
+ font-weight:bold;
+ 
+ 
+
 }
 #Col2{
 text-align:right;
@@ -91,26 +100,30 @@ font-size:0.9em;
     width: 70%;
     text-align: center;
     height: 30px;
+	text-weight:bold;
 }
 .segment .segment-button{
-    font-family: "Helvetica Neue", "Roboto", sans-serif;
+    font-family: "Helvetica Neue", "Roboto", "sans-serif";
     color: #848484;
     border-color: #848484;
     font-weight: bold;
 }
 .btn-warning:disabled{
-    background-color: #F7819F;
-    border-color: #F7819F;
+   background-color: #F7819F;
+   border-color: #F7819F;
+	&:before{content: "ĐÃ ";}
     
 }
 .card-header{
-    background: #FE2E9A;
-    opacity: 0.5;
+    background: #32db64;
+    opacity: 0.9;
     color: white;
     margin: 0;
     height: 40px;
     padding:10px;
+	word-wrap:break-word;
 }
+
 ion-segment{
     background: white;
 }

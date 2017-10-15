@@ -1,5 +1,5 @@
 page-bill {
-/* ---------------------------------------------
+ /* ---------------------------------------------
     Assets
 --------------------------------------------- */
 @charset "utf-8";
@@ -29,42 +29,21 @@ $roboto: 'Roboto Condensed', sans-serif; // https://www.google.com/fonts/specime
     Stylings
 --------------------------------------------- */
 
-html, body {
-  height: 100%;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  @include display(flex);
-  @include justify-content(center);
-  @include align-items(flex-start);
-  background-color: $main;
-  font-family: $roboto;
- 
-  @media (min-height: 580px) {
-    @include align-items(center);
-  }
-}
-
-.container {
-  width: 100%;
-  max-width: 420px;
-  @include padding(null 20px);
- 
-  
-}
 
 .invoice {
   background-color: $white;
+ 
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.13);
-  @include margin(0px 0px);
-  @include padding(10px 0px 30px);
+ @include margin(0 0);
+ 
+  
+  
+  
     
   header {
     overflow: hidden;
-    @include margin(null null 30px null);
+    @include margin(null null 30px 10px);
     
     section {
       &:nth-of-type(1) {
@@ -76,7 +55,7 @@ body {
           letter-spacing: 2px;
           color: $dark-gray;
           font-size: 25px;
-          @include margin(0 null 5px null);
+          @include margin(null null null null);
         }
         
         span {
@@ -88,6 +67,7 @@ body {
       
       &:nth-of-type(2) {
         float: right;
+		margin: 15px 5px 0 0;
         
         span {
           &:before {
@@ -106,7 +86,8 @@ body {
     border: 1px dashed $light-gray;
     border-left-width: 0px;
     border-right-width: 0px;
-    @include padding(10px null);
+   @include padding(10px 5px null 10px);
+   
     
     section {
       overflow: hidden;
@@ -116,23 +97,24 @@ body {
         color: $dark-gray;
         font-size: 16px;
         letter-spacing: .5px;
+		
         
         &:nth-of-type(1) {
-          width: 45%;
+          width: 50%;
           @include margin(null 5% null null);
         }
         
         &:nth-of-type(2) {
-          width: 22.5%;
+          width: 10%;
+		  text-align: center;
           @include margin(null 5% null null);
         }
         
-        &:nth-of-type(2), &:nth-of-type(3) {
-          text-align: right;
-        }
+     
         
         &:nth-of-type(3) {
-          width: 22.5%;
+			text-align:right;
+          width: 30%;
         }
       }
     }
@@ -167,27 +149,36 @@ body {
       }
     }
     
-    section {
+    section {      
+	overflow: hidden;
+
       &:nth-of-type(3) {
         span {
           &:nth-of-type(1) {
-            width: 65%;
+            width: 50%;
             font-weight: bold;
           }
           
           &:nth-of-type(2) {
             margin-right: 0 !important;
-			width:30%
+			width:45%;
+			text-align:right;
+			font-weight:bold;
+			font-color:$main;
 			
           }
         }
       }
     }
+
+	
+	
+	
+	
   }
-  
   footer {
     text-align: right;
-    @include margin(30px null null null);
+    @include margin(10px null 30px null);
     
     a {
       font-size: 19px;
@@ -229,5 +220,7 @@ body {
       }
     }
   }
+  
+  
 }
 }

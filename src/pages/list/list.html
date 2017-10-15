@@ -19,9 +19,8 @@
 </ion-header>
 
 <ion-content padding>
-	<div align="right" class="btnNhap">
 
-</div>
+<div *ngIf = "checkFind == false; else noneFind">
 <div class="alert alert-success" id="abook" *ngIf = "DataS.length > 0 ; else error">
 
 
@@ -46,11 +45,12 @@
   <strong>[Lỗi]:</strong> Bạn chưa chọn sách!
   </div>
 </ng-template>
+</div>
 <div class="dskhachhang">
 <ion-label style="text-align:center;color:white;">DANH SÁCH KHÁCH HÀNG</ion-label>
 </div>
 		 <ion-list>
-		 <a href="#abook">
+		 
     <button ion-item *ngFor="let customer of customers" (tap)="SelectCus($event, customer.$key,customer.Name)">
       <ion-icon name="md-person"></ion-icon>
       {{customer.Name}} 
@@ -58,6 +58,6 @@
         {{customer.Point}}
       </div>
     </button>
-	</a>
+
   </ion-list>
 </ion-content>
