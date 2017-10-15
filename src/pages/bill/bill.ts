@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController,Events } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import {FirebaseListObservable,AngularFireDatabase} from 'angularfire2/database';
-import * as $ from 'jquery';
 
 
 
