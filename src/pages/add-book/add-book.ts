@@ -26,6 +26,7 @@ export class AddBookPage{
 	booksObs: FirebaseListObservable<any>;
 	books: Array<any>;
 	Subs: any;
+	exp:string ="";
 
   constructor(private db: AngularFireDatabase,private ToastCtrl: ToastController,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams,public authData: AuthServiceProvider,private imagePicker: ImagePicker)  {
 		this.loi='';
@@ -35,7 +36,7 @@ export class AddBookPage{
   ionViewDidLoad() {
 	this.imagePicker.getPictures({maximumImagesCount:1}).then((results) => {
   for (var i = 0; i < results.length; i++) {
-      console.log('Image URI: ' + results[i]);
+      this.exp = results[i];
   }
 }, (err) => { });    }
   pushB(){
