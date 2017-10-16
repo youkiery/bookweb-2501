@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!--
   Generated template for the BillPage page.
 
@@ -43,3 +44,59 @@
   </div>
 
 </ion-content>
+=======
+<!--
+  Generated template for the BillPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+ 
+
+
+  <div class="invoice" >
+    <header>
+      <section>
+        <h1>HÓA ĐƠN</h1>
+        <span>{{datenow}}</span>
+      </section>
+
+      <section>
+        <span>{{IDBill}}</span>
+      </section>
+    </header>
+
+    <main>
+      <section>
+        <span>Tên SP</span>
+        <span>SL</span>
+        <span>Đ.Giá</span>
+      </section>
+
+      <section>
+        <figure *ngFor = "let bill of BillBook">
+          <span><strong>{{bill.Title}}</strong></span>
+          <span>{{bill.sold}}</span>
+          <span>{{bill.Price|number:'.0-2'}}</span>
+        </figure>
+      
+      </section>
+      <section>
+        <span>TỔNG</span>
+        <span>{{TotalBill|number:'.0-2'}}</span>
+      </section>
+ 
+    </main>
+	<footer>
+    <button ion-button block  color="danger" (tap)="FullOrder()" >THANH TOÁN</button>
+	</footer>
+
+
+</div>
+	
+	
+	
+
+>>>>>>> 4e7de457847fa9f76d493ebe523191bb6404ff01

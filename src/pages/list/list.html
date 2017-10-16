@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
@@ -61,3 +62,68 @@
 	</a>
   </ion-list>
 </ion-content>
+=======
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+	<ion-row padding-right = "0.9em">
+	<ion-col>
+        <ion-searchbar
+  [(ngModel)]="myInput"
+   (ionInput)="onInput($event)" placeholder = "Tìm kiếm" (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)"
+  >
+</ion-searchbar>
+</ion-col>
+<ion-col col-4 align-self-center *ngIf = "!(hidden)">
+<button class="btn btn-primary" id="btnNhap"  (tap) = "pushCus()" ><strong>KHÁCH</strong> <ion-icon name ="md-add"></ion-icon></button>
+</ion-col>
+</ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<div *ngIf = "checkFind == false; else noneFind">
+<div class="alert alert-success" id="abook" *ngIf = "DataS.length > 0 ; else error">
+
+
+  <p><strong>{{cusname}}</strong> đặt mua:</p>
+  <ion-row *ngFor = "let book of DataS" padding-left="0.3em" >
+  <ion-col col-7 style="width: 300px; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;text-align:left">
+ {{DataS.indexOf(book)+1}}. {{book.Title}} 
+  </ion-col>
+  <ion-col col-5>
+  <button class="btn btn-info"  value="sub" #sub (tap)="CQuanlity(sub.value,DataS.indexOf(book))"> <ion-icon name="md-remove"></ion-icon></button>
+  <strong> [{{book.sold}}] </strong>
+  <button class="btn btn-info"  value="add" #add (tap) ="CQuanlity(add.value,DataS.indexOf(book))"> <ion-icon name="md-add"></ion-icon></button>
+  </ion-col>
+</ion-row>  
+<div padding-top="0.3em">
+<button ion-button color="danger" (tap) = "BuyConfirm()" round>XÁC NHẬN MUA</button>
+</div>
+</div>
+
+<ng-template #error >
+<div class = "alert alert-danger" id="abook">
+  <strong>[Lỗi]:</strong> Bạn chưa chọn sách!
+  </div>
+</ng-template>
+</div>
+<div class="dskhachhang">
+<ion-label style="text-align:center;color:white;">DANH SÁCH KHÁCH HÀNG</ion-label>
+</div>
+		 <ion-list>
+		 
+    <button ion-item *ngFor="let customer of customers" (tap)="SelectCus($event, customer.$key,customer.Name)">
+      <ion-icon name="md-person"></ion-icon>
+      {{customer.Name}} 
+      <div class="item-note" item-right>
+        {{customer.Point}}
+      </div>
+    </button>
+
+  </ion-list>
+</ion-content>
+>>>>>>> 4e7de457847fa9f76d493ebe523191bb6404ff01
