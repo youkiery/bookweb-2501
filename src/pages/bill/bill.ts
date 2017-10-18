@@ -33,16 +33,23 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
    for(var i =0 ; i< this.BillBook.length;i++){
 	  this.TotalBill += parseInt(this.BillBook[i].Price)*this.BillBook[i].sold;
    }
-   
+
+
+  
+
   }
   FullOrder(){
 	var d= new Date();
     var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
 	
+	var c = 0;
+
 	console.log(this.authData.BooksOrder())
-	for(var i=0;i<this.authData.BooksOrder().length;i++){
-		  var q = this.authData.BooksOrder()[i].Inv + this.authData.BooksOrder()[i].sold ; 
-		  this.db.list('Inventory/BOOKS/').update(this.authData.BooksOrder()[i].key,{Inv: q });
+	for(var i=0;i<this.authData.BooksOrder().length;i++) {
+		  var q = this.authData.BooksOrder()[i].Inv + this.authData.BooksOrder()[i].sold;
+		  var b = this.authData.BooksOrder()[i].Bought + this.authData.BooksOrder()[i].sold;
+		  this.db.list('Inventory/BOOKS/').update(this.authData.BooksOrder()[i].key,{Inv: q, Bought: b});
+		  
 		  this.db.list('statistic/').push({
 			  key: this.authData.BooksOrder()[i].key,
 			  number: this.authData.BooksOrder()[i].sold,
@@ -50,7 +57,30 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
 			  PersonINP: this.authData.fetchUser()["displayName"],
 			  type: "sold"
 		  })
+
+			c += this.authData.BooksOrder()[i].Point * this.authData.BooksOrder()[i].sold;
+	}
+	
+	this.db.list('Inventory/CUSTOMER/', {
+		query: {
+			orderByKey: true,
+			equalTo: this.authData.customer
+		}
+	}).forEach(customer => {
+	  console.log(customer)
+	  if(customer.length > 0 && c > 0) {
+		  this.db.list('Inventory/CUSTOMER/').push(JSON.stringify({
+			key: this.authData.BooksOrder()[i].key,
+			number: this.authData.BooksOrder()[i].sold,
+			DateINP: s,
+		  }))
+		   this.db.list('Inventory/CUSTOMER/').update(this.authData.customer, {
+			   Point: customer[0].Point + c
+		})
+		c = 0;
 	  }
+	  })	
+
 	  this.authData.Books = [];
 	 
 	  this.event.publish("Filter",1);

@@ -16,7 +16,7 @@ export class ListPage implements OnInit,OnDestroy,OnChanges{
   customers: Array<any>=[];
   cusname: string = "Khách";
   DataS: Array<any>=[];
-  
+  checkFind : boolean = false;
   onIn:number;
   Subs: any;
   hidden:boolean;
@@ -60,7 +60,7 @@ onBlur(ev){
 onFocus(ev){
 	//console.log(ev);
 	this.hidden = !this.hidden;
-	
+	this.checkFind = true;
 }
 onInput(event){
 	this.onIn = 1;
@@ -96,7 +96,10 @@ SelectCus(ev,key,cname){
 	 // console.log(this.recData);
 	  
 	  this.cusname = cname  ;
+	  this.checkFind = false;
+	  this.authData.customer = key;
 	  }
+	  
 	 
   }
 BuyConfirm(){

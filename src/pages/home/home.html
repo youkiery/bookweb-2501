@@ -39,7 +39,7 @@
 				<ion-card-header>
 					<div class="container">
 						<div class="row">
-							<div class="col-xs-7" id = "RowCol">
+							<div class="col-xs-7" id = "RowColNone">
 								{{book.Title}}
 							</div>
 							<div class="col-xs-3" id = "Col2">
@@ -87,7 +87,7 @@
 								<button class="btn btn-default btn-lg" disabled *ngIf = "(book.Quanlity - book.Inv) === 0">
 									HẾT HÀNG
 								</button>
-								<button *ngIf = "(book.Quanlity - book.Inv) > 0" class="btn btn-warning btn-lg btn-block" [disabled]="ButtonTap(book.$key)" (tap) = "orderBook(book.Title,book.$key,book.Price,book.Inv,book.Quanlity)">
+								<button *ngIf = "(book.Quanlity - book.Inv) > 0" class="btn btn-warning btn-lg btn-block" [disabled]="ButtonTap(book.$key)" (tap) = "orderBook(book.Title,book.$key,book.Price,book.Inv,book.Quanlity,book.Bought, book.Point, book.View)">
 									MUA
 								</button>
 							</div>
@@ -111,3 +111,4 @@
 		</ion-slide>
 	</ion-slides>
 </ion-content>
+		 

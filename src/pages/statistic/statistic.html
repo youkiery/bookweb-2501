@@ -17,9 +17,11 @@
 
 <ion-content padding>
 	<ion-segment [(ngModel)]="statistic" (click)="changeTab()">
+		<!--
 		<ion-segment-button value="date">
 			Ngày
 		</ion-segment-button>
+		-->
 		<ion-segment-button value="month">
 			Tháng
 		</ion-segment-button> 
@@ -27,90 +29,83 @@
 			Năm
 		</ion-segment-button>
 	</ion-segment>
-		<ion-card>
-			<ion-card-header style="background:#f8a;padding-bottom: 0;">
-				<div [ngSwitch]="statistic">
-					<ion-list *ngSwitchCase="'date'" class="contain">
-							<div class="left">
-								<button ion-button (click)="prvDate()" color="secondary">
-									previous
-								</button>
-							</div>
-							<div class="center">
-								{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-							</div>
-							<div class="right">
-								<button ion-button (click)="nextDate()" color="primary">
-									next
-								</button>
-							</div>
-					</ion-list>
-						
-					<ion-list *ngSwitchCase="'month'" class="contain">
-							<div class="left">
-								<button ion-button (click)="prvMonth()" color="secondary">
-									previous
-								</button>
-							</div>
-							<div  class="center">
-								{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-							</div>
-							<div class="right">
-								<button ion-button (click)="nextMonth()" color="primary">
-									next
-								</button>
-							</div>
-					</ion-list>
-						
-					<ion-list *ngSwitchCase="'year'" class="contain">
-							<div class="left">
-								<button ion-button (click)="prvYear()" color="secondary">
-									previous
-								</button>
-							</div>
-							<div class="center">
-								{{currTime.getFullYear()}}
-							</div>
-							<div class="right">
-								<button ion-button (click)="nextYear()" color="primary">
-									next
-								</button>
-							</div>
-					</ion-list>
+	<ion-card>
+		<ion-card-header style="background:#f8a;padding-bottom: 0;">
+			<div [ngSwitch]="statistic">
+				<!--
+				<ion-list *ngSwitchCase="'date'" class="contain">
+						<div class="left">
+							<button ion-button (click)="prvDate()" color="secondary">
+								previous
+							</button>
+						</div>
+						<div class="center">
+							{{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+						</div>
+						<div class="right">
+							<button ion-button (click)="nextDate()" color="primary">
+								next
+							</button>
+						</div>
+				</ion-list>
+				-->
+				<ion-list *ngSwitchCase="'month'" class="contain">
+					<div class="left">
+						<button ion-button (click)="prvMonth()" color="secondary">
+							previous
+						</button>
+					</div>
+					<div  class="center">
+						{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+					</div>
+					<div class="right">
+						<button ion-button (click)="nextMonth()" color="primary">
+							next
+						</button>
+					</div>
+				</ion-list>
+				<ion-list *ngSwitchCase="'year'" class="contain">
+					<div class="left">
+						<button ion-button (click)="prvYear()" color="secondary">
+							previous
+						</button>
+					</div>
+					<div class="center">
+						{{currTime.getFullYear()}}
+					</div>
+					<div class="right">
+						<button ion-button (click)="nextYear()" color="primary">
+							next
+						</button>
+					</div>
+				</ion-list>
+			</div>
+		</ion-card-header>
+		<ion-card-content>		
+			<div (click)="getChart()">
+				Lợi nhuận: {{cash |number:'.0-2'}}<br>
+				Tổng chi: {{import |number:'.0-2'}}<br>
+				Tổng thu: {{export |number:'.0-2'}}
+			</div>
+		</ion-card-content>		
+	</ion-card>
+
+	<ion-card *ngFor="let date of data; let i = index;" (click)="detail(i)">
+		<div *ngIf="date[0] > 0 || date[1] > 0 || date[2] > 0">
+			<ion-card-header>
+				<div *ngIf="statistic == 'month'">
+					Ngày {{i + 1}}
 				</div>
-				<div style="text-align:center; color:white; font-weight:bold">
-					Lợi nhuận:<br>{{increase |number:'.0-2'}}
+				<div *ngIf="statistic == 'year'">
+					Tháng {{i + 1}}
 				</div>
 			</ion-card-header>
-			<ion-card-content>
-			<ion-row style="background: seagreen;">
-				<ion-col col-2>
-					STT
-				</ion-col>
-				<ion-col col-4>
-					Tên
-				</ion-col>
-				<ion-col col-3>
-					Số lượng
-				</ion-col>
-				<ion-col col-3>
-					Thời gian
-				</ion-col>
-			</ion-row>
-			<ion-row *ngFor="let item of currItem; let i = index;">
-				<ion-col col-2>
-					{{i + 1}}
-				</ion-col>
-				<ion-col col-4>
-					{{books[item.key].Title}}
-				</ion-col>
-				<ion-col col-3>
-					{{item.number}}
-				</ion-col>
-				<ion-col col-3>
-					{{item.DateINP | date: "HH:mm:ss"}}
-				</ion-col>
-			</ion-row>
+			<ion-card-content >
+				<ion-item *ngFor="let item of date; let j = index;">
+					{{type[j]}}: {{item}}
+				</ion-item>
 			</ion-card-content>
+		</div>
 		</ion-card>
+
 </ion-content>

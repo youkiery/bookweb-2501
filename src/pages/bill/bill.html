@@ -1,5 +1,15 @@
-<ion-content class="container">
-  <div class="invoice">
+<!--
+  Generated template for the BillPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+ 
+
+
+  <div class="invoice" >
     <header>
       <section>
         <h1>HÓA ĐƠN</h1>
@@ -30,10 +40,15 @@
         <span>TỔNG</span>
         <span>{{TotalBill|number:'.0-2'}}</span>
       </section>
+ 
     </main>
-    <footer>
-      <button ion-button color="danger" (tap)="FullOrder()">THANH TOÁN</button>
-    </footer>
-  </div>
+	<footer>
+    <button ion-button block  color="danger" (tap)="FullOrder()" >THANH TOÁN</button>
+	</footer>
 
-</ion-content>
+
+</div>
+	
+	
+	
+

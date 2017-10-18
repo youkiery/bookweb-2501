@@ -53,7 +53,6 @@ export class HomePage implements OnInit,OnDestroy {
 
 }
 ngOnInit(){
-	
 	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
 	this.events.subscribe("Filter",ids=>{
@@ -176,9 +175,10 @@ onInput(event){
   ButtonTap(key): any{
 	  return this.isButton[key];	 		
   }
-  orderBook(Title,key,price,inv,quan){
+  orderBook(Title,key,price,inv,quan, Bought, Point, View){
 	 this.isButton[key] = true;
-	  this.checkDiv = true;
+		this.checkDiv = true;
+		console.log(View)
 	  this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 
 
 	  console.log();
@@ -188,10 +188,14 @@ onInput(event){
 		  Price: price,
 		  sold: 1,
 		  Inv: inv,
-		  Quanlity: parseInt(quan)
+			Quanlity: parseInt(quan),
+			Bought: Bought,
+			Point: Point
 	  }
 		this.authData.BooksPush(data);
-  
+		this.db.list('/Inventory/BOOKS/').update(key, {
+			View: View + 1
+		})
 	}
 	
 	sua(Title, key, price, point, soluong){
@@ -233,16 +237,21 @@ onInput(event){
 						if(data.diem==""){data.diem=point;}
 						if(data.sl==""){data.sl=0};
 						var d= new Date();
-						var s =  d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
-						var t=soluong+parseInt(data.sl);
+						var s = d.toLocaleDateString()+ ' ' +  d.toLocaleTimeString();
+						var sl = parseInt(data.sl);
 						this.db.list('Inventory/BOOKS/').update(key,{
 							DateINP: s,
 							Title: data.ten,
 							Point: data.diem,
 							PersonINP: this.authData.fetchUser()["displayName"],
 							Price: data.gia,
-							Quanlity: t
+							Quanlity: soluong + sl
 						});
+						this.db.list('Inventory/BOOKS/'+key+'/log/').push(JSON.stringify({
+							DateINP: s,
+							PersonINP: this.authData.fetchUser()["displayName"],
+							Quanlity: sl
+						}));
 						this.st="Thành công!";
 						this.presentToast();
 					}

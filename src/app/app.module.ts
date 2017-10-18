@@ -20,14 +20,13 @@ import { AddBookPage } from '../pages/add-book/add-book';
 import { AddCustomerPage } from '../pages/add-customer/add-customer';
 import { TabsPage } from '../pages/tabs/tabs';
 import { StatisticPage } from '../pages/statistic/statistic';
+import { ChartPage } from '../pages/chart/chart';
+import { DetailPage } from '../pages/detail/detail';
 import { BillPage } from '../pages/bill/bill';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
-
- 
-
+import {ChartsModule} from 'ng2-charts';
+import 'chart.js';
 
 export const config = {
     apiKey: "AIzaSyCqi62CXXif5_9VDLEsctQZx0pb-BCtrow",
@@ -51,9 +50,13 @@ export const config = {
 	TabsPage,
 	AddCustomerPage,
 	BillPage,
-	StatisticPage
+  StatisticPage,
+  ChartPage,
+  DetailPage
   ],
   imports: [
+
+		 ChartsModule,
     BrowserModule,
 	HttpModule,
 	AngularFireDatabaseModule,
@@ -79,7 +82,9 @@ export const config = {
 	TabsPage,
 	AddCustomerPage,
 	BillPage,
-	StatisticPage
+  StatisticPage,
+  ChartPage,
+  DetailPage
   ],
   providers: [
     StatusBar,
