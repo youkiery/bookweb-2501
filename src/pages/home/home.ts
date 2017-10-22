@@ -3,7 +3,7 @@ import { Component,ViewChild,OnInit,OnDestroy,  trigger,
   style,
   animate,
   transition,keyframes  } from '@angular/core';
-import { NavController,Slides,Events, NavParams,Tabs, AlertController, ToastController } from 'ionic-angular';
+import { NavController,Slides,Events, NavParams,Tabs, AlertController, ToastController, PopoverController } from 'ionic-angular';
 //import { SuperTabsModule } from 'ionic2-super-tabs';
 import { SignupPage } from '../signup/signup';
 import { ListPage } from '../list/list';
@@ -11,6 +11,9 @@ import { AddBookPage } from '../add-book/add-book';
 import {FirebaseListObservable,AngularFireDatabase} from 'angularfire2/database';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
+
+import { AddCustomerPage } from '../add-customer/add-customer';
+import { BillPage } from '../bill/bill';
 
 @Component({
   selector: 'page-home',
@@ -42,14 +45,20 @@ export class HomePage implements OnInit,OnDestroy {
   BooksOrder: Array<any>=[];
   tabs: Tabs;
   Subs: any;
-  hidden: boolean;
   myInput:any;
   isButton: any = {};
   st:string;
   booklists: any;
-  bounceState: String = 'noBounce';
-  
-  constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams) {
+	bounceState: String = 'noBounce';
+	
+
+  customersObs: FirebaseListObservable<any>;
+  customers: Array<any>=[];
+  cusname: string = "Khách";
+  DataS: Array<any>=[];
+  checkFind : boolean = false;
+
+  constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, public popCtrl:PopoverController) {
 
 }
 ngOnInit(){
@@ -98,14 +107,30 @@ ngOnInit(){
 			}
 		}
 	})
+
+	this.events.subscribe("Filter",dt=>{
+		this.DataS = this.authData.BooksOrder();
+	});
+this.customersObs = this.db.list('Inventory/CUSTOMER/');
+this.Subs = this.customersObs.subscribe(data=>{
+	this.customers = data;
+	
+	
+})
+	
 }
 ionViewDidEnter(){
 	this.BooksOrder = this.authData.BooksOrder();
 	this.isButton = this.authData.isButton;
+	
+	this.DataS = this.authData.BooksOrder();
+	console.log(this.DataS);
 }
 ngOnDestroy(){
 	console.log('OK');
 	this.Subs.unsubscribe();
+
+
 	
 }
  onSegmentChanged(segmentButton) {
@@ -132,10 +157,8 @@ const currentSlide = this.slides[slider.getActiveIndex()];
 	
   }  
 onBlur(ev){
-	this.hidden = !this.hidden;
 } 
 onFocus(ev){
-	this.hidden = !this.hidden;
 	
 }
 onInput(event){
@@ -272,4 +295,91 @@ onInput(event){
 		});
 		toast.present();
 	}
+
+	
+onBlur2(ev){
+	//console.log(ev);
+	this.myInput = "";
+	this.Subs = this.customersObs.subscribe(data=>{
+		this.customers = data;
+		
+	})
+	
+} 
+onFocus2(ev){
+	//console.log(ev);
+	this.checkFind = true;
+}
+onInput2(event){
+	this.Subs = this.customersObs.subscribe(data=>{
+		this.customers = data;
+		
+	})
+
+	//console.log(event);
+	let val = event.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.customers = this.customers.filter((item) => {
+        return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+		//console.log(item);
+      })
+    }
+	//console.log(this.books);
+	
+}
+
+pushCus(){
+	  this.navCtrl.push(AddCustomerPage);
+  }
+SelectCus(ev,key,cname, point){
+	  if(this.DataS.length > 0){ 
+	 // console.log(this.recData);
+	  
+	  this.cusname = cname  ;
+	  this.checkFind = false;
+	  this.authData.customer = {
+			key: key,
+			point: point
+	  }
+	  }
+  }
+BuyConfirm(){
+	if(this.cusname === "Khách"){
+		this.authData.alertText(0,"Vui lòng chọn Khách Hàng!");
+	}
+	else{
+		let popover = this.popCtrl.create(BillPage);
+		console.log(this.authData.BooksOrder())
+
+    popover.present();
+  
+	}
+}  
+CQuanlity(val,index){
+	  if(val === "sub"){
+		  if(this.authData.BooksOrder()[index].sold >0){
+			  this.authData.BooksOrder()[index].sold-=1;
+			  if(this.authData.BooksOrder()[index].sold ===0){
+				this.events.publish("Filter",this.authData.BooksOrder()[index].key);
+			  this.authData.BooksOrder().splice(index,1);
+			  
+			  }
+		  }
+		if(this.authData.BooksOrder().length===0){  this.events.publish("Filter",1)};
+	  }
+	  else{
+		  var q = this.authData.BooksOrder()[index].sold;
+		  console.log(this.authData.BooksOrder()[index].Inv + q,this.authData.BooksOrder()[index].Quanlity);
+		  if((this.authData.BooksOrder()[index].Inv + q)  === parseInt(this.authData.BooksOrder()[index].Quanlity)){
+			  this.authData.alertText(1,"Trong kho đã hết sách này");
+		  }  
+		  else{
+		  this.authData.BooksOrder()[index].sold+=1;
+		  }
+	  }
+	}
+	
+	  
 }

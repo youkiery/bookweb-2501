@@ -44,7 +44,7 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
 	
 	var c = 0;
 
-	console.log(this.authData.BooksOrder())
+	console.log(this.authData)
 	for(var i=0;i<this.authData.BooksOrder().length;i++) {
 		  var q = this.authData.BooksOrder()[i].Inv + this.authData.BooksOrder()[i].sold;
 		  var b = this.authData.BooksOrder()[i].Bought + this.authData.BooksOrder()[i].sold;
@@ -59,27 +59,19 @@ IDBill: number = Math.floor((Math.random() * 10000) + 1);
 		  })
 
 			c += this.authData.BooksOrder()[i].Point * this.authData.BooksOrder()[i].sold;
-	}
-	
-	this.db.list('Inventory/CUSTOMER/', {
-		query: {
-			orderByKey: true,
-			equalTo: this.authData.customer
-		}
-	}).forEach(customer => {
-	  console.log(customer)
-	  if(customer.length > 0 && c > 0) {
-		  this.db.list('Inventory/CUSTOMER/').push(JSON.stringify({
+		  this.db.list('Inventory/CUSTOMER/' + this.authData.customer.key + '/log/').push(JSON.stringify({
 			key: this.authData.BooksOrder()[i].key,
 			number: this.authData.BooksOrder()[i].sold,
 			DateINP: s,
 		  }))
-		   this.db.list('Inventory/CUSTOMER/').update(this.authData.customer, {
-			   Point: customer[0].Point + c
+	}
+	
+	  if(c > 0) {
+		   this.db.list('Inventory/CUSTOMER/').update(this.authData.customer.key, {
+			   Point: this.authData.customer.point + c
 		})
 		c = 0;
-	  }
-	  })	
+	}
 
 	  this.authData.Books = [];
 	 

@@ -38,7 +38,7 @@ const authObserver = afAuth.authState.subscribe( user => {
 	if(snapshot.val().active === 1){
    this.username=user["displayName"];
 	  this.avatar = user["photoURL"];
-        this.nav.setRoot(TabsPage);
+        this.nav.setRoot(HomePage);
 		this.menu.enable(true);
 	}
 	else{
@@ -55,7 +55,7 @@ const authObserver = afAuth.authState.subscribe( user => {
 
 
     this.pages = [
-      { title: 'TRANG CHỦ', component: TabsPage,count:0 },
+      { title: 'TRANG CHỦ', component: HomePage,count:0 },
       { title: 'THỐNG KÊ', component: StatisticPage,count:0 },
     ];
 
@@ -64,7 +64,7 @@ const authObserver = afAuth.authState.subscribe( user => {
 	if(snapshot.val().active === 1){
    this.username=user["displayName"];
 	  this.avatar = user["photoURL"];
-        this.nav.setRoot(TabsPage);
+        this.nav.setRoot(HomePage);
 		 this.menu.enable(true);
 	}
 	else{

@@ -1,8 +1,9 @@
 import { Component,ViewChild,OnInit,OnDestroy } from '@angular/core';
 import { NavController,Events,NavParams,Tabs } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 import { HomePage } from '../home/home';
-import { ListPage } from '../list/list';
+import { StatisticPage } from '../statistic/statistic';
 import { Login } from '../login/login';
 
 @Component({
@@ -11,14 +12,14 @@ import { Login } from '../login/login';
 export class TabsPage implements OnInit,OnDestroy{
 @ViewChild(Tabs) tabs: Tabs;	
   tab1 = HomePage;
-  tab2 = ListPage;
+  tab2 = StatisticPage;
   //tabids:string;
 	  
 
  //mySelectedIndex: number;
 
 
-  constructor(public navCtrl:NavController,public navParams: NavParams, public events: Events) {
+  constructor(public navCtrl:NavController,public navParams: NavParams, public events: Events,private AuthSevice: AuthServiceProvider) {
 	  
 	
 	
@@ -35,5 +36,9 @@ ngOnDestroy(){
 }
 
   
+logout(){
+  this.AuthSevice.logoutUser();
+  this.navCtrl.setRoot(Login);
+}
 
 }
