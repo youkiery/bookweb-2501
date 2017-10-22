@@ -38,84 +38,66 @@
 			-->
 			<ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
 				<ion-slide *ngFor="let slide of slides">
-					<ion-row *ngFor="let book of booklists[selectedSegment]">
-						<ion-col align-self-center>
-							<ion-avatar item-start>
-								<img src="assets/images/1A.jpg" style="width:128px;height:auto;" id="dmanh" />
-							</ion-avatar>
-							{{book.Title}}
-						</ion-col>
-						<ion-col align-self-start>
+					<ion-card *ngFor="let book of booklists[selectedSegment]" class="bookcard">
+						<ion-card-header>
+							<div class="container">
+								<div class="row">
+									<div class="col-xs-7" id = "RowColNone">
+										{{book.Title}}
+									</div>
+									<div class="col-xs-3" id = "Col2">
+				
+									</div>
+								</div>
+							</div>
+						</ion-card-header>
+						<ion-card-content>
 							<ion-row>
-								<ion-col align-self-center>
-									GIÁ
-								</ion-col>
-								<ion-col align-self-center>
-									{{book.Price |number:'.0-2'}}
-								</ion-col>
-							</ion-row>
-							<ion-row>
-								<ion-col align-self-center>SỐ LƯỢNG</ion-col>
-								<ion-col align-self-center> {{book.Quanlity}} </ion-col>
-							</ion-row>
-							<ion-row>
-								<ion-col align-self-center>TỒN KHO</ion-col>
-								<ion-col align-self-center> {{book.Quanlity - book.Inv }} 
-								</ion-col>
-							</ion-row>
-							<ion-row>
-								<ion-col align-self-center>Điểm</ion-col>
-								<ion-col align-self-center> {{book.Point }} </ion-col>
-							</ion-row>
-							<div align-self-center>
+								<ion-col align-self-center col-5 id = "RowCol">
+									<ion-avatar item-start>
+										<img src="assets/images/1A.jpg" class="img-responsive img-thumbnail" id="dmanh" />
+									</ion-avatar>
 								<button ion-button color="secondary"	class="btnnhap" (click)="sua(book.Title,book.$key,book.Price, book.Point,book.Quanlity)">
 									<span>
 										<ion-icon name="construct"></ion-icon>          
 										<span>Sửa</span>
 									</span>
 								</button>
-							</div>
-						<div style="text-align:right;padding:1em">
-								<button class="btn btn-default btn-lg" disabled *ngIf = "(book.Quanlity - book.Inv) === 0">
-									HẾT HÀNG
-								</button>
-								<button *ngIf = "(book.Quanlity - book.Inv) > 0" class="btn btn-warning btn-lg btn-block" [disabled]="ButtonTap(book.$key)" (tap) = "orderBook(book.Title,book.$key,book.Price,book.Inv,book.Quanlity,book.Bought, book.Point, book.View)">
-									MUA
-								</button>
-							</div>
-						</ion-col>
-						</ion-row>
-				<!--
-							<ion-card *ngFor="let book of booklists[selectedSegment]">
-								<ion-card-header>
-									<div>
-										<div>
-											<div>
-											</div>
-											<div>
-							
-											</div>
-										</div>
-									</div>
-								</ion-card-header>
-								<ion-card-content>
-								</ion-card-content>
-							</ion-card>
-							<!--
-							<div *ngIf = "slide.id ==='earpipe'">
-								<div class="alert alert-success" id="abook" *ngIf = "checksBook ===true">
-									Khách mua {{selectBook}}	
-								</div>
-								<ion-list>
-									<button ion-item *ngFor="let customer of customers | async" (click)="itemTapped($event, item)">
-									<ion-icon></ion-icon>
-									<div class="item-note" item-right>
-										
-									</div>
+								
+							</ion-col>
+							<ion-col align-self-start col-7 id = "Col2">
+								<ion-row>
+									<ion-col align-self-center col-5 id = "RowCol">
+										GIÁ
+									</ion-col>
+									<ion-col align-self-center col-6 id = "Col2">
+										{{book.Price |number:'.0-2'}}
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col align-self-center col-5 id = "RowCol">SỐ LƯỢNG</ion-col>
+									<ion-col align-self-center col-6 id = "Col2"> {{book.Quanlity}} </ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col align-self-center col-5 id = "RowCol">TỒN KHO</ion-col>
+									<ion-col align-self-center col-6 id = "Col2"> {{book.Quanlity - book.Inv }} </ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col align-self-center col-5 id = "RowCol">Điểm</ion-col>
+									<ion-col align-self-center col-6 id = "Col2"> {{book.Point }} </ion-col>
+								</ion-row>
+								<div style="text-align:right;padding:1em">
+									<button class="btn btn-default btn-lg" disabled *ngIf = "(book.Quanlity - book.Inv) === 0">
+										HẾT HÀNG
 									</button>
-								</ion-list>
-							</div>
-							-->
+									<button *ngIf = "(book.Quanlity - book.Inv) > 0" class="btn btn-warning btn-lg btn-block" [disabled]="ButtonTap(book.$key)" (tap) = "orderBook(book.Title,book.$key,book.Price,book.Inv,book.Quanlity,book.Bought, book.Point, book.View)">
+										MUA
+									</button>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-card-content>
+				</ion-card>
 						</ion-slide>
 					</ion-slides>
 

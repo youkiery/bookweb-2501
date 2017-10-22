@@ -8,8 +8,12 @@ $light-gray: #b7bcc3;
 $main: #fe8888;
 
 
-
     font-family: Tahoma,Georgia,arial,Verdana,sans-serif;
+    .bookcard {
+        display: inline-block;
+        width: 300px;
+        margin-left: 8px;
+    }
     .col {
         margin: 0;
         padding: 0;
@@ -140,6 +144,14 @@ ion-segment{
     width: 100%;
     margin: 0;
     margin-bottom: 10px;
+
+}
+@media only screen and (max-width: 700px) {
+    .bookcard {
+        display: block;
+        width: 90%;
+        margin-left: 8px;
+    }
 
 }
 
