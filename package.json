@@ -60,7 +60,7 @@
   "devDependencies": {
     "@angular/tsc-wrapped": "^4.4.4",
     "@ionic/app-scripts": "^3.0.0",
-    "ionic": "3.13.2",
+    "ionic": "3.15.0",
     "typescript": "2.5.3"
   },
   "description": "TTN-TEAM",

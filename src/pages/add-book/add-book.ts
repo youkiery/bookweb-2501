@@ -1,8 +1,11 @@
 import { Component,OnInit,OnDestroy } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,AlertController,ToastController, Events } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import {FirebaseListObservable, AngularFireDatabase} from 'angularfire2/database';
+import  firebase  from 'firebase/app';
+
+import {UploadImagePage} from '../upload-image/upload-image'
 
 /**
  * Generated class for the AddBookPage page.
@@ -22,15 +25,22 @@ export class AddBookPage{
 	Price:number;
 	Quanlity:number;
 	Point:number;
+	Bill:number;
 	loi:any;
 	booksObs: FirebaseListObservable<any>;
 	books: Array<any>;
 	Subs: any;
 	exp:string ="";
+	file:any;
+	preview:any = '';
+	url:any = 'assets/images/1A.jpg';
 
-  constructor(private db: AngularFireDatabase,private ToastCtrl: ToastController,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams,public authData: AuthServiceProvider,private imagePicker: ImagePicker)  {
-		this.loi='';
+  constructor(private db: AngularFireDatabase,private ToastCtrl: ToastController,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams,public authData: AuthServiceProvider,private imagePicker: ImagePicker, public ev:Events)  {
+	this.loi='';
 		
+  	this.ev.subscribe('chose', data => {
+		this.url = data.toString();
+	})
   }
 
   ionViewDidLoad() {
@@ -52,15 +62,18 @@ export class AddBookPage{
 			this.error(this.loi);
 			
 		}else if(this.Price==null){
-			this.loi="vui lòng điền giá!";
+			this.loi="vui lòng điền giá bán!";
 			kt=0;
 			this.error(this.loi);
-			
+
+		}else if(this.Bill==null){
+			this.loi="vui lòng điền giá nhập!";
+			kt=0;
+			this.error(this.loi);
 		}else if(this.Quanlity==null){
 			this.loi="vui lòng điền số lượng!";
 			kt=0;
 			this.error(this.loi);
-	
 		}else
 		
 		if(kt==1){
@@ -94,6 +107,9 @@ export class AddBookPage{
 				if(typeof(this.Price) == 'string') {
 					this.Price = parseInt(this.Price);
 				}
+				if(typeof(this.Bill) == 'string') {
+					this.Bill = parseInt(this.Bill);
+				}
 				if(typeof(this.Quanlity) == 'string') {	
 					this.Quanlity = parseInt(this.Quanlity);	
 				}
@@ -104,11 +120,15 @@ export class AddBookPage{
 					Type: this.Type,
 					Title: this.Title,
 					Price: this.Price,
+					Bill: this.Bill,
 					Quanlity: this.Quanlity,
 					Point: this.Point,
 					Inv: 0,
 					PersonINP: this.authData.fetchUser()["displayName"],
-					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString()	
+					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
+					Image: this.url,
+					View:0,
+					Bought:0
 				}
 				this.authData.insertDBFree("Inventory/BOOKS/",data);
 				this.db.list('/statistic/').push({
@@ -116,8 +136,23 @@ export class AddBookPage{
 					number: this.Quanlity,
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
 					PersonINP: this.authData.fetchUser()["displayName"],
-					type: "import"	
+					type: "import"
 				})
+
+					//var uploadTask = storageRef.child(this.preview).put(this.file[0]);
+					if(this.file != undefined) {
+						var storageRef = firebase.storage().ref();
+						//var uploadTask = storageRef.child(this.preview).put(this.file[0]);
+						var uploadTask = storageRef.child(this.preview);
+						uploadTask.put(this.file[0]).then((snapshot) => {
+							console.log(this.url);
+							this.db.list('Inventory/BOOKS/').update(this.books[this.books.length - 1].$key, {
+								Image: snapshot.downloadURL
+							});
+						})
+					}
+				
+				(<HTMLInputElement>document.getElementById('blah')).src = "assets/images/1A.jpg";
 				
 				console.log("Thành Công");
 				this.presentToast();
@@ -125,14 +160,36 @@ export class AddBookPage{
 				this.Type=null;
 				this.Price=null;
 				this.Quanlity=null;
+				this.Bill=null;
 				this.Point=null;
 			}
 			
 		}
 	  
   }
+  getFile() {
+	this.file = (<HTMLInputElement>document.getElementById('file')).files;
+	this.preview = this.file[0].name;
+	console.log(this.file[0])
+	console.log(this.preview);
+	
+	var reader = new FileReader();
+	 reader.onload = function(e) {
+		let target: any = e.target;
+		let content: string = target.result;
+		(<HTMLInputElement>document.getElementById('blah')).src = content;
+	  }
+	  reader.readAsDataURL(this.file[0]);
+
+	}
+
   //ngOnInit(){}
 	//ngonDestroy(){}
+	library() {
+		this.navCtrl.push(UploadImagePage, {
+			'url': this.url
+		})
+	}
 	presentToast() {
 		const toast = this.ToastCtrl.create({
 			message: 'User '+this.authData.fetchUser()["displayName"]+' thêm thành công',

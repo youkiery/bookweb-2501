@@ -32,8 +32,12 @@
     <ion-input [(ngModel)] = "Title" name="Title" type="text"  ></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label  floating style="font-weight: bold;">Giá</ion-label>
+    <ion-label  floating style="font-weight: bold;">Giá bán</ion-label>
     <ion-input  [(ngModel)] = "Price" type="number" name="Price"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label  floating style="font-weight: bold;">Giá nhập</ion-label>
+    <ion-input  [(ngModel)] = "Bill" type="number" name="Bill"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label floating style="font-weight: bold;">Số lượng</ion-label>
@@ -41,9 +45,16 @@
   </ion-item>
   <ion-item>
     <ion-label floating style="font-weight: bold;">Điểm</ion-label>
-    <ion-input [(ngModel)] = "point" name="point" type="number" ></ion-input>
+    <ion-input [(ngModel)] = "Point" name="Point" type="number" ></ion-input>
   </ion-item>
-
+  <ion-item>
+    <label for="file">
+      <div>
+          <img src="{{url}}" id='blah' style="width:128px;height:128px;border:1px dotted blue;"/>              
+      </div>
+    </label>
+    <input type="file" id="file" (change)="getFile()" class="inputfile" />
+  </ion-item>
 </ion-list>
 <div align="center" class="well" id="images">hihi</div>
 <div padding>

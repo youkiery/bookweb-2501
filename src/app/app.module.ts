@@ -22,7 +22,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatisticPage } from '../pages/statistic/statistic';
 import { ChartPage } from '../pages/chart/chart';
 import { DetailPage } from '../pages/detail/detail';
-import { BillPage } from '../pages/bill/bill';
+  import { BillPage } from '../pages/bill/bill';
+  import { UploadImagePage } from '../pages/upload-image/upload-image';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ChartsModule} from 'ng2-charts';
@@ -52,7 +53,8 @@ export const config = {
 	BillPage,
   StatisticPage,
   ChartPage,
-  DetailPage
+  DetailPage,
+  UploadImagePage
   ],
   imports: [
 
@@ -84,7 +86,8 @@ export const config = {
 	BillPage,
   StatisticPage,
   ChartPage,
-  DetailPage
+  DetailPage,
+  UploadImagePage
   ],
   providers: [
     StatusBar,

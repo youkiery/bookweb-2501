@@ -1,0 +1,25 @@
+<!--
+  Generated template for the UploadImagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>upload-image</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <img src="{{url}}"  id="blah" style="max-width:128px;width:auto;height:128px;"/>
+  
+  <input type="file" id="file" (change)="getFile()"/>
+  <button ion-button (click)="uploadFile()">
+    Tải ảnh lên
+  </button>
+  <hr>
+  <span *ngFor="let item of file">
+    <img src="{{item}}" (click)="chose(item)" style="max-width:128px;width:auto;height:128px;display:inline-block;border:1px solid black;margin:2px;"/>
+  </span>
+</ion-content>

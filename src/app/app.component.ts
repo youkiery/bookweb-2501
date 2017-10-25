@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 import { Login } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { StatisticPage } from '../pages/statistic/statistic';
+import { UploadImagePage } from '../pages/upload-image/upload-image';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import firebase from 'firebase/app';
@@ -39,6 +40,7 @@ const authObserver = afAuth.authState.subscribe( user => {
    this.username=user["displayName"];
 	  this.avatar = user["photoURL"];
         this.nav.setRoot(HomePage);
+        //this.nav.setRoot(UploadImagePage);
 		this.menu.enable(true);
 	}
 	else{

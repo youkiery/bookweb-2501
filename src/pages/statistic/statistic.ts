@@ -22,47 +22,62 @@ import { DetailPage } from '../detail/detail'
 export class StatisticPage {
   subSt:any;
   subBo:any;
-  statistic:string = 'month';
+  statistic:string = 'day';
   
-  books:any;
+  books:any = [];
   
   minTime:any;
   maxTime:any;
   startTime:any;
   endTime:any;
 
-  now:any;
   currTime:any;
 
   allItem:any;
-  currItem:any;
+  currItem:any = [];
 
-  data:any;
-  cash:number;
-  import:number;
-  export:number;
+  data:any = [];
+  cash:number[] = [0,0,0];
+  import:number[] = [0,0,0];
+  export:number[] = [0,0,0];
+  currRp:any[] = [[],[],[]];
+
+  g:{} = {'day': [0,0,0], 'month': [0,0,0], 'year': [0,0,0]};
+  dTotal:any[] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  mTotal:any[] = new Array(31).fill([0,0,0]);
+  yTotal:any[] = new Array(12).fill([0,0,0]);
+
+  daynum:number = 0;
+
+  dItem:any[] = [[],[],[]];
+  mItem:any[] = [];
+  yItem:any[] = [];
+
+  dStart:any;
+  dEnd:any;
+  mStart:any;
+  mEnd:any;
+  yStart:any;
+  yEnd:any;
+  d1:any[] = [];
+  d2:any[] = [0,0,0];
 
   private type = ['book', 'earpipe', 'other'];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private ToastCtrl: ToastController) {
-
-    this.now = new Date(Date.now());
-    this.currTime = new Date(this.now);
+    this.currTime = new Date();
     
-    this.books = [];
-
     this.subSt = this.db.list('/statistic/').subscribe(item => {
       this.allItem = [];
-      this.allItem = item;
-      var l = item.length;
+      this.allItem = JSON.parse(JSON.stringify(item));
       var min = 0, max = 0;
       
 	    this.subBo = this.db.list('/Inventory/BOOKS/').forEach(books_item => {
 	      this.books = [];
 	      books_item.forEach(book => {
 	    	this.books[book.$key] = book;
-	    	this.books[book.$key].total = 0;
 	      })
+        var l = item.length;
         for(var i = 0; i < l; i++) {
 		      if(this.books[item[i].key] !== undefined) {
             var x = item[i].DateINP;
@@ -77,7 +92,6 @@ export class StatisticPage {
             else if(min > y) {
               min = y;
             }
-            this.books[item[i].key].total += item[i].number;
 		      }
         }
         this.minTime = new Date(min);
@@ -87,6 +101,26 @@ export class StatisticPage {
     })
   }
   
+  prvDay() {
+    if(this.minTime < this.currTime) {
+        this.currTime.setDate(this.currTime.getDate() - 1);
+        this.changeTime();
+    } 
+    else {
+      this.notice();
+    }
+  }
+  
+  nextDay() {
+    if(this.maxTime > this.currTime) {
+        this.currTime.setDate(this.currTime.getDate() + 1);
+        this.changeTime();
+    } 
+    else {
+      this.notice();
+    }
+  }
+
   nextMonth() {
     if(this.maxTime > this.currTime) {
         this.currTime.setMonth(this.currTime.getMonth() + 1);
@@ -128,74 +162,148 @@ export class StatisticPage {
   }
   
   changeTime() {
-	  this.cash = 0;
-	  this.import = 0;
-    this.export = 0;
-
-    this.data = [];
-    var i;
-
-    if(this.statistic == 'month') {
-      this.startTime = new Date(this.currTime.getFullYear(), this.currTime.getMonth(), 1);
-      this.endTime =  new Date(this.currTime.getFullYear(), new Date(new Date(this.currTime).setMonth(this.currTime.getMonth() + 1)).getMonth(), 1);
-
-      var daynum = new Date((new Date(this.endTime).setDate(0))).getDate();
-      for(i = 1; i <= daynum; i ++) {
-        this.data[i] = new Array(3).fill(0);
-      }
-    }
-    else if(this.statistic == 'year') {
-      this.startTime = new Date(this.currTime.getFullYear(), 1);
-      this.endTime =  new Date(new Date(new Date(this.currTime).setFullYear((this.currTime.getFullYear() + 1))).getFullYear(), 1);
-      
-      for(i = 1; i <= 12; i ++) {
-        this.data[i] = new Array(3).fill(0);
-      }
-    }
-
+    this.dStart = new Date(this.currTime.getFullYear(), this.currTime.getMonth(),  this.currTime.getDate(), 0);
+    this.dEnd = new Date(this.currTime.getFullYear(), this.currTime.getMonth(),  this.currTime.getDate() + 1, 0);
     
-    console.log(this.startTime, this.endTime)
+    this.mStart = new Date(this.currTime.getFullYear(), this.currTime.getMonth(), 1);
+    this.mEnd =  new Date(this.currTime.getFullYear(), this.currTime.getMonth() + 1, 1);
     
-    this.currItem = this.allItem.filter((item) => {
+    this.yStart = new Date(this.currTime.getFullYear(), 1);
+    this.yEnd =  new Date(this.currTime.getFullYear() + 1, 1);
+
+    this.g = {'day': [0,0,0], 'month': [0,0,0], 'year': [0,0,0]};
+    
+    this.currRp = [[],[],[]];
+    
+	  this.dTotal = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    this.yTotal = [];
+
+    this.d1 = [];
+    this.d2 = [0,0,0];
+
+    this.mItem = new Array(12).fill([]);
+    this.dItem = [[],[],[]];
+
+    this.daynum = new Date(this.currTime.getFullYear(), this.currTime.getMonth() + 1, 0).getDate();
+    this.mTotal = [];
+    for(var i = 0; i < 31; i++) {
+      this.mTotal[i] = [0,0,0];
+      this.mItem[i] = [];
+    }
+    for(var i = 0; i < 12; i++) {
+      this.yTotal[i] = [0,0,0];
+    }
+
+    this.yItem = this.allItem.filter((item) => {
       if(this.books[item.key] != undefined) {
-        return (item.DateINP >= this.startTime && item.DateINP <= this.endTime);
+        return (item.DateINP >= this.yStart && item.DateINP <= this.yEnd);
       }
     })
 
-	  this.currItem.forEach(item => {
+    console.log(this.mTotal, this.mStart, this.mEnd, this.daynum)
+
+	  this.yItem.forEach(item => {
       if(item.key !== undefined) {
-        var change = this.books[item.key].Price * item.number
-        if(this.statistic == 'month') {
-          this.data[item.DateINP.getDate()][this.type.indexOf(this.books[item.key].Type)] += change;
+        var yIndex = 12 - item.DateINP.getMonth();
+        var mIndex = this.daynum - item.DateINP.getDate();
+        var dIndex = this.type.indexOf(this.books[item.key].Type);
+        var m = 0;
+        var d = 0;
+
+        if(item.DateINP >= this.mStart && item.DateINP <= this.mEnd) {
+          m = 1;
         }
-        else if(this.statistic == 'year') {
-          console.log(item.DateINP.getMonth() + 1)
-          this.data[item.DateINP.getMonth() + 1][this.type.indexOf(this.books[item.key].Type)] += change;
+
+        if(item.DateINP >= this.dStart && item.DateINP <= this.dEnd) {
+          d = 1;
         }
-	  	  if(item.type == "import") {
-          this.cash -= change;
-          this.import += change;
-	  	  }
-	  	  else if(item.type == "sold") {
-	  	  	this.cash += this.books[item.key].Price * item.number;
-          this.export += change;
-	  	  }
+
+        if(item.type == "import") {
+          var change = this.books[item.key].Bill * item.number;
+          this.g['year'][0] -= change;
+          this.g['year'][1] += change;
+          this.yTotal[yIndex][0] -= change;
+          this.yTotal[yIndex][1] += change;
+          if(m) {
+            this.g['month'][0] -= change;
+            this.g['month'][1] += change;
+            this.mTotal[mIndex][0] -= change;
+            this.mTotal[mIndex][1] += change;
+            this.mItem[mIndex].push(item);
+          }
+          if(d) {
+            this.g['day'][0] -= change;
+            this.g['day'][1] += change;
+            this.dTotal[dIndex][0] -= change;
+            this.dTotal[dIndex][1] += change;
+            this.d1.push(item);
+            this.d2[dIndex] += item.number;
+            this.dItem[dIndex].push(item);
+          }
+        }
+        else if(item.type == "sold") {
+          var change = this.books[item.key].Price * item.number;
+          this.g['year'][0] += change;
+          this.g['year'][2] += change;
+          this.yTotal[yIndex][0] += change;
+          this.yTotal[yIndex][2] += change;
+          if(m) {
+            this.g['month'][0] += change;
+            this.g['month'][2] += change;
+            this.mTotal[mIndex][0] += change;
+            this.mTotal[mIndex][2] += change;
+            this.mItem[mIndex].push(item);
+          }
+          if(d) {
+            this.g['day'][0] += change;
+            this.g['day'][2] += change;
+            this.dTotal[dIndex][0] += change;
+            this.dTotal[dIndex][2] += change;
+            this.d1.push(item);
+            this.d2[dIndex] += item.number;
+            this.dItem[dIndex].push(item);
+          }
+        }
       }
     })
-    this.data.splice(0, 1)
-    console.log(this.data)
+    console.log(this.yTotal, this.yItem[2]);
+  }
+
+  getThisDate(date, index) {
+    this.navCtrl.push(DetailPage, {
+      'date': date,
+      'time': this.currTime,
+      'data': this.mItem[index],
+      'book': this.books
+    })
+  }
+
+  gotoMonth(index) {
+    this.currTime.setMonth(12 - index - 1);
+    this.statistic = 'month';
   }
 
   getChart() {
-    let navCtrl = this.navCtrl.push(ChartPage, {
-      'type': this.statistic,
-      'time': this.currTime,
-      'item': this.currItem,
-      'book': this.books,
-      'cash': this.cash,
-      'import': this.import,
-      'export': this.export
-    });
+      switch (this.statistic) {
+        case 'day':
+          this.navCtrl.push(ChartPage, {
+            number: 3,
+            data: this.dTotal
+          });
+          break;
+        case 'month':
+          this.navCtrl.push(ChartPage, {
+            number: this.daynum,
+            data: this.mTotal
+          });
+          break;
+        case 'year':
+          this.navCtrl.push(ChartPage, {
+            number: 12,
+            data: this.yTotal
+          });
+          break;
+      }
   }
   detail(key) {
     let navCtrl = this.navCtrl.push(DetailPage, {
@@ -208,7 +316,7 @@ export class StatisticPage {
   }
   
   changeTab() {
-  	this.currTime = new Date(this.now);
+    this.currTime = new Date();
     this.changeTime();
   }
   

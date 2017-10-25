@@ -196,10 +196,10 @@ onInput(event){
 	  this.tabs.select(1);
   }
   ButtonTap(key): any{
-	  return this.isButton[key];	 		
+	  return this.authData.isButton[key];	 		
   }
   orderBook(Title,key,price,inv,quan, Bought, Point, View){
-	 this.isButton[key] = true;
+		this.authData.isButton[key] = true;
 		this.checkDiv = true;
 		console.log(View)
 	  this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 

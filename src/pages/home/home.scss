@@ -105,9 +105,16 @@ align-items: flex-start !important;
 #btnNhap{
 margin: 0 0px 0px 0;
 height:100%;
-width:100%;
+width: 100%;
 font-size:0.9em;
+border-radius: 2px;
+height: auto;
+font-size: 1.6rem;
+font-weight: 400;
+line-height: 3rem;
 }
+
+
 .btnnhap{
     width: 70%;
     text-align: center;
@@ -119,6 +126,7 @@ font-size:0.9em;
     color: #848484;
     border-color: #848484;
     font-weight: bold;
+    font-size: 18px;
 }
 .btn-warning:disabled{
    background-color: #F7819F;
@@ -133,7 +141,8 @@ font-size:0.9em;
     margin: 0;
     height: 40px;
     padding:10px;
-	word-wrap:break-word;
+    word-wrap:break-word;
+    
 }
 
 ion-segment{
@@ -154,5 +163,70 @@ ion-segment{
     }
 
 }
+.dskhachhang{
+    width: 100%;
+    background: #32db64;
+    padding: 15px 10px 15px 10px;
+    border-radius: 5px;
+    text-align:center;
+    color:white;
+}
+.muahang{
+    text-transform: uppercase;
+    opacity: 0.9;
+    background: #32db64;
+    padding: 10px;
+    border-radius: 5px;
+    text-align:center;
+    color:white;
+}
+a:hover{
+    text-decoration: none;
+}
+a:active{
+    border: none;
+    border-color: white;
+}
+a:visited{
+    border: none;
+    border-color: white;
+}
+.dshangmua{
+    padding-top:10px;
+    padding-bottom:10px;
+    border:1px solid #BDBDBD;
+    background:#eee;
+    border-radius:5px;
+    margin-top:10px;
+    font-weight: bold;
+}
+.dsdachon{
+    background:#eee;
+    border-radius:5px;
+    border:1px solid #BDBDBD;
+    border-top:none;
+}
+
+/* Dành cho điện thoại */
+@media all and (min-width: 320px) {
+    .cardmd{
+        width:100%;
+    }
+   }
+    
+   /* Dành cho máy tính bảng */
+@media all and (min-width: 600px) {
+    .cardmd{
+        width:49%;
+        margin-right:1%;
+        float:left;
+    }
+    .fixedp{
+        position: fixed;
+        overflow: auto;
+        right: 1.2em;
+        height: 600px;
+    }
+   }
 
 }

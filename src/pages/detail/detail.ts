@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { ChartPage } from '../chart/chart'
+
 /**
  * Generated class for the DetailPage page.
  *
@@ -14,49 +16,58 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'detail.html',
 })
 export class DetailPage {
-
-  statistic:any;
-  item:any;
-  books:any;
-  currItem:any;
+  g:number[] = [0,0,0];
+  dTotal:any[] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+  dItem:any[] = [[],[],[]];
+  date:any;
   time:any;
-  key:any;
+  books:any;
+  d1:any = [];
+  d2:any = [0,0,0];
 
-  endTime:any;
-  startTime:any;
+  private type = ['book', 'earpipe', 'other'];
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-
-	  this.item = navParams.get('item');
-	  this.books = navParams.get('book');
-	  this.statistic = navParams.get('type');
-    this.time = navParams.get('time');
-    this.key = navParams.get('key');
-    console.log(this.item);
-    console.log(this.books);
-    console.log(this.statistic);
-    console.log(this.time);
-    console.log(this.key);
+    this.books = this.navParams.get('book');
+    var dItem = this.navParams.get('data');
+    this.date = this.navParams.get('date');
+    this.time = this.navParams.get('time');
+    this.books = this.navParams.get('book');
+    this.dTotal = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     
-    if(this.statistic == 'month') {
-      this.startTime = new Date(this.time.getFullYear(), this.time.getMonth(), this.key);
-      this.endTime =  new Date(new Date(this.startTime).setDate(this.startTime.getDate() + 1));
-    }
-    else if(this.statistic == 'year') {
-      this.startTime = new Date(this.time.getFullYear(), this.key - 1, 1);
-      this.endTime =  new Date(new Date(this.startTime).setMonth(this.startTime.getMonth() + 1));
-    }
+    this.d1 = dItem;
+    this.d2 = [0,0,0];
 
-    console.log(this.startTime, this.endTime, this.key)
+    console.log(dItem)
+	  dItem.forEach(item => {
+      if(item.key !== undefined) {
+        var dIndex = this.type.indexOf(this.books[item.key].Type);
 
-    this.currItem = [];
-
-    this.currItem = this.item.filter((item) => {
-      if(this.books[item.key] != undefined) {
-        return (item.DateINP >= this.startTime && item.DateINP <= this.endTime);
-      }
+        if(item.type == "import") {
+          var change = this.books[item.key].Bill * item.number;
+            this.g[0] -= change;
+            this.g[1] += change;
+            this.dTotal[dIndex][0] -= change;
+            this.dTotal[dIndex][1] += change;
+            this.d2[dIndex] += item.number;
+          }
+        else if(item.type == "sold") {
+          var change = this.books[item.key].Price * item.number;
+            this.g[0] += change;
+            this.g[2] += change;
+            this.dTotal[dIndex][0] += change;
+            this.dTotal[dIndex][2] += change;
+            this.d2[dIndex] += item.number;
+          }
+            this.dItem[dIndex].push(item)
+        }
     })
-
-    console.log(this.currItem)
+    console.log(this.books);
+  }
+  getChart() {
+    this.navCtrl.push(ChartPage, {
+      number: 3,
+      data: this.dTotal
+    });
   }
 
   ionViewDidLoad() {

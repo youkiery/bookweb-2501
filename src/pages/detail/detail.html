@@ -11,30 +11,46 @@
   </ion-navbar>
 
 </ion-header>
-
-
-<ion-content padding>
-  
-    <div *ngIf="statistic == 'month'">
-      Ngày {{key}} Tháng {{time.getMonth() + 1}} Năm {{time.getFullYear()}}
+<ion-content padding style="margin:auto;text-align:center;">
+  <div style="margin:auto;width:50%;text-align:center;">
+    <ion-card>
+      <ion-card-header style="background:#f8a;padding-bottom: 0;">
+        <div class="center">
+          {{date}}/{{time.getMonth() + 1}}/{{time.getFullYear()}}
+        </div>
+			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+				  Biểu đồ
+			  </div>
+      </ion-card-header>
+      <ion-card-content>
+        <div (click)="getChart()">
+          Lợi nhuận: {{ g[0] |number:'.0-2'}}<br>
+          Tổng chi: {{ g[1] |number:'.0-2'}}<br>
+          Tổng thu: {{ g[2] |number:'.0-2'}}
+        </div>
+        <div *ngFor="let t of type; let i = index;">
+          {{t}}:  {{ dTotal[i][0] | number:'.0-2'}} ({{d2[i]}})
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            Chi tiết
+          </ion-card-header>
+        <ion-card-content>
+          <div *ngFor="let item of d1; let i2 = index;" style="text-align:left;">
+            <span>
+              {{i2 + 1}}. {{item.DateINP | date: "HH:mm"}}
+            </span>
+            <span *ngIf="item.type == 'import'" color="primary">
+                Nhập
+            </span>
+            <span *ngIf="item.type == 'sold'" color="secondary">
+                Bán
+            </span>
+              {{books[item.key].Title}} [{{item.number}}] - {{item.PersonINP}}
+          </div>
+        </ion-card-content>
+    </ion-card>
     </div>
-    <div *ngIf="statistic == 'year'">
-      Tháng {{time.getMonth() + 1}} Năm {{time.getFullYear()}}
-    </div>
-      <ion-list *ngFor="let item of currItem; let i = index;">
-        {{i + 1}}. 
-        <span *ngIf="item.type == 'import'">
-          Nhập
-        </span>
-        <span *ngIf="item.type == 'export'">
-          Bán
-        </span>
-        {{item.number}} {{books[item.key].Title}} vào
-        <span *ngIf="statistic == 'month'">
-          lúc {{item.DateINP | date: "HH:mm"}}
-        </span>
-        <span *ngIf="statistic == 'year'">
-          ngày {{item.DateINP | date: "dd lúc HH:mm"}}
-        </span>
-      </ion-list>
 </ion-content>

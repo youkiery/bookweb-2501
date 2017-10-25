@@ -38,87 +38,29 @@ export class ChartPage {
     public barChartType:string = 'bar';
     public barChartLegend:boolean = true;
     
-    public barChartData:any[] = [
-    {data: [], label: 'Tổng chi'},
-    {data: [], label: 'Doanh thu'}
-    ];
+    public barChartData:any[] = [{data: [], label: 'Tổng chi'}, {data: [], label: 'Tổng thu'}];
+    private type = ['other', 'earpipe', 'book'];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private ToastCtrl: ToastController) {
+    var number = this.navParams.get('number');
+    var data = this.navParams.get('data');
 
-	  this.item = navParams.get('item');
-	  this.books = navParams.get('book');
-	  this.statistic = navParams.get('type');
-    this.currTime = navParams.get('time');
-    this.cash = navParams.get('cash');
-    this.import = navParams.get('import');
-    this.export = navParams.get('export');
+    console.log(data, this.barChartData );
+    var a = [];
+    var b = [];
 
-    console.log(this.cash)
-
-    this.data = [];
-    this.barChartLabels = [];
-    if(this.statistic == 'month') {
-      this.startTime = new Date(this.currTime.getFullYear(), this.currTime.getMonth(), 1);
-      this.endTime =  new Date(this.currTime.getFullYear(), new Date(new Date(this.currTime).setMonth(this.currTime.getMonth() + 1)).getMonth(), 1);
-
-      var daynum = new Date((new Date(this.endTime).setDate(0))).getDate();
-      this.data.import = new Array(daynum).fill(0);
-      this.data.sold = new Array(daynum).fill(0);
-      
-      for(var i = 1; i <= daynum; i++) {
-        this.barChartLabels.push(i.toString());
+    for(var i = 0; i < number; i++) {
+      if(number == 3) {
+        this.barChartLabels[i] = this.type[i];
       }
-      
-	    this.item.forEach(item => {
-        if(item.key !== undefined) {
-          var change = this.books[item.key].Price * item.number
-	    	  if(item.type == "import") {
-            this.data.import[item.DateINP.getDate() - 1] += change;
-	    	  }
-	    	  else if(item.type == "sold") {
-            this.data.sold[item.DateINP.getDate() - 1] += change;
-	    	  }
-        }
-      })
+      else {
+        this.barChartLabels[i] = (i + 1).toString();
+      }
+      a.push(data[number - i - 1][1]);
+      b.push(data[number - i - 1][2]);
     }
-    else if(this.statistic == 'year') {
-      this.startTime = new Date(this.currTime.getFullYear(), 1);
-      this.endTime =  new Date(new Date(new Date(this.currTime).setFullYear((this.currTime.getFullYear() + 1))).getFullYear(), 1);
-      
-      var yearnum = this.endTime.getFullYear() - this.startTime.getFullYear() + 1;
-      this.data.import = new Array(yearnum).fill(0);
-      this.data.sold = new Array(yearnum).fill(0);
-
-      for(i = this.startTime.getFullYear(); i <= this.endTime.getFullYear(); i++) {
-        this.barChartLabels.push(i.toString());
-      }
-      console.log(this.startTime, this.endTime)
-      
-	    this.item.forEach(item => {
-        if(item.key !== undefined) {
-          var change = this.books[item.key].Price * item.number
-	    	  if(item.type == "import") {
-           this.data.import[item.DateINP.getFullYear() - this.startTime.getFullYear()] += change;
-	    	  }
-	   	  else if(item.type == "sold") {
-           this.data.sold[item.DateINP.getFullYear() - this.startTime.getFullYear()] += change;
-	    	  }
-       }
-      })
-    }
-    
-
-    
-    this.barChartData = [
-      {
-        data: this.data.import,
-        label: 'Tổng chi'
-      },
-      {
-        data: this.data.sold,
-        label: 'Doanh thu'
-      }
-    ];
-    
+    this.barChartData[0].data = a;
+    this.barChartData[1].data = b;
+    console.log(this.barChartData, this.barChartLabels)
   }
 }

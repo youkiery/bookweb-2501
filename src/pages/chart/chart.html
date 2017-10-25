@@ -16,27 +16,6 @@
 </ion-header>
 
 <ion-content padding>
-	<ion-card>
-		<ion-card-header style="background:#f8a;padding-bottom: 0;">
-			<div [ngSwitch]="statistic">
-				<ion-list *ngSwitchCase="'month'" class="contain">
-					<div  class="center">
-						{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-					</div>
-				</ion-list>
-				<ion-list *ngSwitchCase="'year'" class="contain">
-					<div class="center">
-						{{currTime.getFullYear()}}
-					</div>
-				</ion-list>
-			</div>
-		</ion-card-header>
-		<ion-card-content>		
-			<div>
-				Lợi nhuận: {{cash |number:'.0-2'}}<br>
-				Tổng chi: {{import |number:'.0-2'}}<br>
-				Tổng thu: {{export |number:'.0-2'}}
-			</div>
 			<div style="display:block;">
 				<canvas baseChart
 				[datasets]="barChartData"
@@ -45,6 +24,4 @@
 				[legend]="barChartLegend"
 				[chartType]="barChartType"></canvas>
 			</div>
-		</ion-card-content>		
-	</ion-card>
 </ion-content>

@@ -1,3 +1,53 @@
 page-detail {
 
+	.left, .right, .center {
+		display: inline-block;
+		width: 33%;
+	}
+	.left {
+		text-align: left;
+	}
+	.right {
+		text-align: right;
+	}
+	.center {
+		text-align:center;
+		color:white;
+		font-weight:bold;
+	}
+	.card-content{
+		padding: 8px;
+		padding-bottom: 0px;
+	}
+	
+	@media (max-width:480px) {
+		.left, .right, .center {
+			display: block;
+			width: 100%;
+			text-align:center;
+		}
+	}
+	.card{
+		margin: 10px 0 0 0;
+		border: none;
+		width: 100%;
+		border-radius: 5px;
+	}
+	.row{
+		font-size: 16px;
+		font-weight: bold;
+		
+	}
+	.segment-md .segment-button{
+		color: black;
+		font-size: 15px;
+	}
+	.segment-md .segment-button.segment-activated{
+		border-color: black;
+	}
+	.tkcard{
+		background: #32db64;
+		color: white;
+		opacity: 0.9;
+	}
 }

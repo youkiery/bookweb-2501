@@ -37,4 +37,16 @@ page-statistic {
 		font-weight: bold;
 		
 	}
+	.segment-md .segment-button{
+		color: black;
+		font-size: 15px;
+	}
+	.segment-md .segment-button.segment-activated{
+		border-color: black;
+	}
+	.tkcard{
+		background: #32db64;
+		color: white;
+		opacity: 0.9;
+	}
 }
