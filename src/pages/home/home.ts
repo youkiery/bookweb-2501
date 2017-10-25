@@ -21,17 +21,31 @@ import { BillPage } from '../bill/bill';
   animations: [
     trigger('bounce', [
       state('bouncing', style({
-        transform: 'translate3d(0,0,0)'
+        transform: 'translate3d(0,0,0)',
+		color:'yellow',
+		textWeight: 'bold',
+		fontSize: '1.3em'
+		
+		
       })),
+	  state('noBounce', style({
+		  color:'yellow',
+		  textWeight: 'bold',
+		fontSize: '1.3em'
+		 
+	  })),
       transition('* => *', [
-        animate('300ms ease-in', keyframes([
+	    
+        animate('300ms ease-in-out', keyframes([
           style({transform: 'translate3d(0,0,0)', offset: 0}),
           style({transform: 'translate3d(0,-10px,0)', offset: 0.5}),
-          style({transform: 'translate3d(0,0,0)', offset: 1})
+          style({transform: 'translate3d(0,0,0)', offset: 1}),
+		  
+		  
         ]))
-      ])
-    ])
-  ]
+	   
+  ])
+  ])]
 })
 export class HomePage implements OnInit,OnDestroy {
 
@@ -49,14 +63,13 @@ export class HomePage implements OnInit,OnDestroy {
   isButton: any = {};
   st:string;
   booklists: any;
-	bounceState: String = 'noBounce';
-	
-
+  bounceState: String = 'Bounce';
   customersObs: FirebaseListObservable<any>;
   customers: Array<any>=[];
   cusname: string = "Khách";
   DataS: Array<any>=[];
-  checkFind : boolean = false;
+  checkFind : boolean;
+ sumBooks: number = 0;
 
   constructor(public authData: AuthServiceProvider, private ToastCtrl: ToastController, private alertCtrl: AlertController, public navCtrl: NavController,private db: AngularFireDatabase, private events:Events, public navParams: NavParams, public popCtrl:PopoverController) {
 
@@ -64,12 +77,13 @@ export class HomePage implements OnInit,OnDestroy {
 ngOnInit(){
 	this.booklists = [];
 	this.tabs = this.navCtrl.parent;	
-	this.events.subscribe("Filter",ids=>{
+	this.events.subscribe("FilterFix",ids=>{
 		
-			console.log(this.isButton);
-			console.log(ids);
+			//console.log(this.isButton);
+			//console.log(ids);
 			this.isButton[ids] = false;
-			console.log(this.isButton);
+			this.DataS = this.authData.BooksOrder();
+			//console.log(this.isButton);
 		
 		})
 	this.slides = [
@@ -86,6 +100,7 @@ ngOnInit(){
 		  title:"OTHER"
 	  }
     ];
+	
 	this.selectedSegment = this.slides[0].id;
 	this.booksObs = this.db.list('Inventory/BOOKS/');
 	this.Subs = this.booksObs.subscribe(item =>{
@@ -109,7 +124,17 @@ ngOnInit(){
 	})
 
 	this.events.subscribe("Filter",dt=>{
-		this.DataS = this.authData.BooksOrder();
+    	 this.authData.Books = [];
+	  this.authData.isButton = {};
+	  this.authData.sumBooks = 0;
+	  this.authData.customer = {};
+	this.isButton = this.authData.isButton;
+	this.sumBooks = this.authData.sumBooks;
+	this.DataS = this.authData.BooksOrder();
+		this.cusname = "Khách";
+		this.bounceState = "Bounce";
+
+
 	});
 this.customersObs = this.db.list('Inventory/CUSTOMER/');
 this.Subs = this.customersObs.subscribe(data=>{
@@ -120,7 +145,7 @@ this.Subs = this.customersObs.subscribe(data=>{
 	
 }
 ionViewDidEnter(){
-	this.BooksOrder = this.authData.BooksOrder();
+	//this.BooksOrder = this.authData.BooksOrder();
 	this.isButton = this.authData.isButton;
 	
 	this.DataS = this.authData.BooksOrder();
@@ -132,6 +157,12 @@ ngOnDestroy(){
 
 
 	
+}
+BooksTotal(){
+		this.sumBooks = this.authData.sumBooks;
+		for(var i = 0;i<this.authData.BooksOrder().length;i++){
+			this.sumBooks+=parseInt(this.authData.BooksOrder()[i].sold)*parseInt(this.authData.BooksOrder()[i].Price);
+		}
 }
  onSegmentChanged(segmentButton) {
     console.log("Segment changed to", segmentButton.value);
@@ -196,29 +227,32 @@ onInput(event){
 	  this.tabs.select(1);
   }
   ButtonTap(key): any{
-	  return this.authData.isButton[key];	 		
+	  return this.isButton[key];	 		
   }
   orderBook(Title,key,price,inv,quan, Bought, Point, View){
-		this.authData.isButton[key] = true;
+	 this.isButton[key] = true;
 		this.checkDiv = true;
-		console.log(View)
-	  this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 
+		console.log(View);
+	  //this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing'; 
 
-	  console.log();
+	
 	  var data = {
 		  Title: Title,
 		  key: key,
 		  Price: price,
 		  sold: 1,
 		  Inv: inv,
-			Quanlity: parseInt(quan),
-			Bought: Bought,
-			Point: Point
+		  Quanlity: parseInt(quan),
+		  Bought: Bought,
+		  Point: Point
 	  }
 		this.authData.BooksPush(data);
 		this.db.list('/Inventory/BOOKS/').update(key, {
 			View: View + 1
 		})
+		this.BooksTotal();
+		//console.log(this.authData.BooksOrder());
+		
 	}
 	
 	sua(Title, key, price, point, soluong){
@@ -243,7 +277,7 @@ onInput(event){
 				{
 					name:'sl',
 					type:'number',
-					placeholder:'Số lượng: 0'
+					placeholder:'Thêm số lượng: 0'
 				}
 			],
 			buttons:[
@@ -298,8 +332,8 @@ onInput(event){
 
 	
 onBlur2(ev){
-	//console.log(ev);
-	this.myInput = "";
+	this.myInput2 = "";
+	//this.checkFind = !(this.checkFind);
 	this.Subs = this.customersObs.subscribe(data=>{
 		this.customers = data;
 		
@@ -307,8 +341,8 @@ onBlur2(ev){
 	
 } 
 onFocus2(ev){
-	//console.log(ev);
-	this.checkFind = true;
+	//this.checkFind = !(this.checkFind);
+	
 }
 onInput2(event){
 	this.Subs = this.customersObs.subscribe(data=>{
@@ -316,17 +350,14 @@ onInput2(event){
 		
 	})
 
-	//console.log(event);
 	let val = event.target.value;
 
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.customers = this.customers.filter((item) => {
         return (item.Name.toLowerCase().indexOf(val.toLowerCase()) > -1);
-		//console.log(item);
       })
     }
-	//console.log(this.books);
 	
 }
 
@@ -335,10 +366,10 @@ pushCus(){
   }
 SelectCus(ev,key,cname, point){
 	  if(this.DataS.length > 0){ 
-	 // console.log(this.recData);
-	  
-	  this.cusname = cname  ;
-	  this.checkFind = false;
+	   this.cusname = cname;
+	  setTimeout(()=>{	 this.bounceState = (this.bounceState == 'bouncing') ? 'noBounce' : 'bouncing';
+},100);
+	  //this.checkFind = false;
 	  this.authData.customer = {
 			key: key,
 			point: point
@@ -362,12 +393,12 @@ CQuanlity(val,index){
 		  if(this.authData.BooksOrder()[index].sold >0){
 			  this.authData.BooksOrder()[index].sold-=1;
 			  if(this.authData.BooksOrder()[index].sold ===0){
-				this.events.publish("Filter",this.authData.BooksOrder()[index].key);
+				this.events.publish("FilterFix",this.authData.BooksOrder()[index].key);
 			  this.authData.BooksOrder().splice(index,1);
 			  
 			  }
 		  }
-		if(this.authData.BooksOrder().length===0){  this.events.publish("Filter",1)};
+		if(this.authData.BooksOrder().length===0){  this.events.publish("FilterFix",1)};
 	  }
 	  else{
 		  var q = this.authData.BooksOrder()[index].sold;
@@ -379,7 +410,9 @@ CQuanlity(val,index){
 		  this.authData.BooksOrder()[index].sold+=1;
 		  }
 	  }
+	  			this.BooksTotal();
+
 	}
-	
+
 	  
 }

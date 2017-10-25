@@ -11,6 +11,8 @@
   </ion-navbar>
 
 </ion-header>
+
+
 <ion-content padding style="margin:auto;text-align:center;">
   <div style="margin:auto;width:50%;text-align:center;">
     <ion-card>
@@ -18,9 +20,6 @@
         <div class="center">
           {{date}}/{{time.getMonth() + 1}}/{{time.getFullYear()}}
         </div>
-			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
-				  Biểu đồ
-			  </div>
       </ion-card-header>
       <ion-card-content>
         <div (click)="getChart()">
@@ -28,17 +27,20 @@
           Tổng chi: {{ g[1] |number:'.0-2'}}<br>
           Tổng thu: {{ g[2] |number:'.0-2'}}
         </div>
-        <div *ngFor="let t of type; let i = index;">
-          {{t}}:  {{ dTotal[i][0] | number:'.0-2'}} ({{d2[i]}})
-        </div>
       </ion-card-content>
     </ion-card>
-    <ion-card>
+    <ion-card *ngFor="let t of type; let i = index;">
+      <div *ngIf="dItem[i].length > 0">
         <ion-card-header>
-            Chi tiết
-          </ion-card-header>
+          {{t}}
+          <div>
+            Lợi nhuận: {{ dTotal[i][0] |number:'.0-2'}}<br>
+            Tổng chi: {{ dTotal[i][1] |number:'.0-2'}}<br>
+            Tổng thu: {{ dTotal[i][2] |number:'.0-2'}}
+          </div>
+        </ion-card-header>
         <ion-card-content>
-          <div *ngFor="let item of d1; let i2 = index;" style="text-align:left;">
+          <ion-item *ngFor="let item of dItem[i]; let i2 = index;">
             <span>
               {{i2 + 1}}. {{item.DateINP | date: "HH:mm"}}
             </span>
@@ -49,8 +51,19 @@
                 Bán
             </span>
               {{books[item.key].Title}} [{{item.number}}] - {{item.PersonINP}}
-          </div>
+          </ion-item>
         </ion-card-content>
+    </div>
+      <div *ngIf="dItem[i].length == 0">
+        <ion-card-header>
+          {{t}}
+          <div (click)="getChart()">
+            Không có số liệu
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+        </ion-card-content>
+      </div>
     </ion-card>
     </div>
 </ion-content>

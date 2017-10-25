@@ -1,0 +1,43 @@
+page-list {
+
+#abook{
+	text-align:center;
+	font-size: 1.3em;
+    position: relative;
+    -webkit-animation: mymove 1s;  /* Safari 4.0 - 8.0 */
+    -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+    animation: mymove 1s;
+    animation-fill-mode: forwards;
+	width: 0px;
+    height: 0px;
+}
+@-webkit-keyframes mymove {
+    from {left: -10px; }
+    to {left: 0px; }
+}
+
+@keyframes mymove {
+    from {left: -10px;}
+    to {left: 0px;height:auto;width:100%}
+}
+#btnNhap{
+margin: 0 2em 0px 0;
+height:100%;
+width:90%;
+font-size:1em;
+
+}
+a:hover{
+    text-decoration: none;
+    
+}
+.dskhachhang{
+    width: 100%;
+    background: #32db64;
+    opacity: 0.8;
+    border-radius: 5px;
+    text-align: center;
+    padding: 2px;
+}
+
+}

@@ -13,10 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
-<form (ngSubmit) = "pushB()">
-<ion-list>
-<img src="{{exp}}">
+<ion-content>
+<body class="body-bg-full profile-page"  style="background-image: url(assets/images/night.jpg)">
+    <div id="wrapper" class="row">
+        <div class="col-10 ml-sm-auto col-sm-6 col-md-4 ml-md-auto login-center mx-auto">
+<form class="md-form" novalidate (ngSubmit) = "pushB()">
   <ion-item>
     <ion-label style="font-weight: bold;">Nhóm</ion-label>
     <!-- <ion-input [(ngModel)] = "Type" name="Type" type="text"></ion-input> -->
@@ -26,7 +27,6 @@
       <ion-option value="other">KHÁC</ion-option>
     </ion-select>
   </ion-item>
-
   <ion-item>
     <ion-label floating style="font-weight: bold;">Tên</ion-label>
     <ion-input [(ngModel)] = "Title" name="Title" type="text"  ></ion-input>
@@ -48,17 +48,20 @@
     <ion-input [(ngModel)] = "Point" name="Point" type="number" ></ion-input>
   </ion-item>
   <ion-item>
+  <div align="center" style="padding-top:2em">
     <label for="file">
       <div>
           <img src="{{url}}" id='blah' style="width:128px;height:128px;border:1px dotted blue;"/>              
       </div>
     </label>
     <input type="file" id="file" (change)="getFile()" class="inputfile" />
+  </div>
   </ion-item>
-</ion-list>
-<div align="center" class="well" id="images">hihi</div>
 <div padding>
-  <button class="btn btn-block btn-primary" name="submit" >NHẬP</button>
+  <button class="btn btn-block btn-primary" name="submit" >NHẬP SÁCH</button>
 </div>
 </form>
+</div>
+</div>
+</body>
 </ion-content>

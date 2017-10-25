@@ -11,4 +11,114 @@ page-add-book {
         position: absolute;
         z-index: -1;
     }
+form {
+
+    margin-bottom: 10px;
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  p {
+    font-size: 0.2em;
+    color: #d2d2d2;
+  }
+
+  ion-label {
+    margin-left: 2px;
+	 font-size: 0.1em;
+  }
+
+  ion-input {
+    padding: 0.2em;
+	 font-size: 0.8em;
+  }
+
+  .invalid {
+    border-bottom: 1px solid #FF6153;
+  }
+
+  .error-message .item-inner {
+    border-bottom: 0 !important;
+  }
+/* Full Width BG Pages
+========================*/
+.body-bg-full {
+	
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+   }
+  .body-bg-full .wrapper,
+  .body-bg-full #app {
+    margin: 0;
+    display: table;
+    width: 100%;
+    height: 100%; }
+  .body-bg-full .content-wrapper {
+    padding: 1.71429em;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    min-height: auto;
+    width: 25rem; }
+  .body-bg-full .main-wrapper {
+    background: transparent; }
+
+.error-page .page-title,
+.profile-page .page-title {
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0; }
+
+.profile-page {
+	font-size:10px;
+	overflow-y: visible;
+	
+   }
+  .profile-page .navbar-header {
+    float: none;
+    width: auto; }
+  .profile-page .login-left-inner {
+    max-width: 37.14286em;
+    margin-left: 4.28571em;
+    padding-bottom: 1.42857em;
+    position: fixed;
+    bottom: 0;
+    left: 0; }
+    .profile-page .login-left-inner p small {
+      font-size: 1.5em;
+      font-weight: 300;
+      line-height: 2em; }
+  .profile-page .login-links {
+    margin-top: 2.5em;
+    font-size: 1.5em;
+    font-weight: 300;
+    opacity: .8; }
+  .profile-page .login-right {
+    padding: 2.85714em 4.28571em;
+    min-height: 100vh;
+    height: 100%;
+    background: white;
+    position: relative; }
+    .profile-page .login-right .checkbox {
+      padding-top: 0; }
+  .profile-page .login-center {
+    padding: 1.42857em 4.28571em;
+    background: white;
+	
+    margin-top: 3em;
+    margin-bottom: 5em;
+		
+    border-radius: 5px;
+    position: relative; }
+    .profile-page .login-center .checkbox {
+      padding-top: 0; }
+  .profile-page .login-center-mini {
+    margin-top: 5.71429em; }
+	
 }

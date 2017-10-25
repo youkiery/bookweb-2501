@@ -32,7 +32,7 @@
             </div>
             <div class="center">
 			  {{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+			  <div (click)="getChart()">
 				  Biểu đồ
 			  </div>
             </div>
@@ -48,17 +48,20 @@
               Tổng chi: {{ g[statistic][1] |number:'.0-2'}}<br>
               Tổng thu: {{ g[statistic][2] |number:'.0-2'}}
             </div>
-            <div *ngFor="let t of type; let i = index;">
-              {{t}}:  {{ dTotal[i][0] | number:'.0-2'}} ({{d2[i]}})
-            </div>
           </ion-card-content>
         </ion-card>
-        <ion-card>
+        <ion-card *ngFor="let t of type; let i = index;">
+          <div *ngIf="dItem[i].length > 0">
             <ion-card-header>
-              Chi tiết
+              {{t}}
+              <div>
+                Lợi nhuận: {{ dTotal[i][0] |number:'.0-2'}}<br>
+                Tổng chi: {{ dTotal[i][1] |number:'.0-2'}}<br>
+                Tổng thu: {{ dTotal[i][2] |number:'.0-2'}}
+              </div>
             </ion-card-header>
             <ion-card-content>
-              <div *ngFor="let item of d1; let i2 = index;" style="text-align:left;">
+              <ion-item *ngFor="let item of dItem[i]; let i2 = index;">
                 <span>
                   {{i2 + 1}}. {{item.DateINP | date: "HH:mm"}}
                 </span>
@@ -69,11 +72,22 @@
                     Bán
                 </span>
                   {{books[item.key].Title}} [{{item.number}}] - {{item.PersonINP}}
-              </div>
+              </ion-item>
             </ion-card-content>
+        </div>
+          <div *ngIf="dItem[i].length == 0">
+            <ion-card-header>
+              {{t}}
+              <div>
+                Không có số liệu
+              </div>
+            </ion-card-header>
+            <ion-card-content>
+            </ion-card-content>
+          </div>
         </ion-card>
-    </ion-list>
-    
+	  </ion-list>
+
       <ion-list *ngSwitchCase="'month'" class="contain">
         <ion-card>
           <ion-card-header style="background:#f8a;padding-bottom: 0;">
@@ -84,7 +98,7 @@
             </div>
             <div  class="center">
               {{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
-			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+			  <div (click)="getChart()">
 				  Biểu đồ
 			  </div>
             </div>
@@ -106,7 +120,7 @@
           <ion-card *ngIf="item[0] > 0 || item[1] > 0 || item[2] > 0">
             <ion-card-header>
 			  Ngày {{daynum - i}}
-			  <div class="right" (click)="getThisDate(daynum - i, i)" style="color:red; font-size:1.5em;">
+			  <div class="right" (click)="getThisDate(daynum - i, i)">
 				  Chi tiết
 			  </div>
             </ion-card-header>
@@ -130,7 +144,7 @@
             </div>
             <div class="center">
               {{currTime.getFullYear()}}
-			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+			  <div (click)="getChart()">
 				  Biểu đồ
 			  </div>
             </div>
@@ -151,10 +165,7 @@
 		<div *ngFor="let item of yTotal; let i = index;">
         <ion-card *ngIf="item[0] > 0 || item[1] > 0 || item[2] > 0">
           <ion-card-header>
-            Tháng {{12 - i}}
-              <div (click)="gotoMonth(i)" style="color:red; font-size:1.5em;">
-              Đến tháng
-            </div>
+			Tháng {{12 - i + 1}}
           </ion-card-header>
           <ion-card-content>
 				<div>
@@ -165,7 +176,7 @@
           </ion-card-content>
         </ion-card>
 		</div>
-    </ion-list>
+	  </ion-list>
     </div>
   </div>
 </ion-content>

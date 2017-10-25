@@ -59,8 +59,6 @@ export class StatisticPage {
   mEnd:any;
   yStart:any;
   yEnd:any;
-  d1:any[] = [];
-  d2:any[] = [0,0,0];
 
   private type = ['book', 'earpipe', 'other'];
 
@@ -178,9 +176,6 @@ export class StatisticPage {
 	  this.dTotal = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     this.yTotal = [];
 
-    this.d1 = [];
-    this.d2 = [0,0,0];
-
     this.mItem = new Array(12).fill([]);
     this.dItem = [[],[],[]];
 
@@ -236,8 +231,6 @@ export class StatisticPage {
             this.g['day'][1] += change;
             this.dTotal[dIndex][0] -= change;
             this.dTotal[dIndex][1] += change;
-            this.d1.push(item);
-            this.d2[dIndex] += item.number;
             this.dItem[dIndex].push(item);
           }
         }
@@ -259,8 +252,6 @@ export class StatisticPage {
             this.g['day'][2] += change;
             this.dTotal[dIndex][0] += change;
             this.dTotal[dIndex][2] += change;
-            this.d1.push(item);
-            this.d2[dIndex] += item.number;
             this.dItem[dIndex].push(item);
           }
         }
@@ -276,11 +267,6 @@ export class StatisticPage {
       'data': this.mItem[index],
       'book': this.books
     })
-  }
-
-  gotoMonth(index) {
-    this.currTime.setMonth(12 - index - 1);
-    this.statistic = 'month';
   }
 
   getChart() {
@@ -316,7 +302,6 @@ export class StatisticPage {
   }
   
   changeTab() {
-    this.currTime = new Date();
     this.changeTime();
   }
   

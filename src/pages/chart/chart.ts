@@ -39,7 +39,7 @@ export class ChartPage {
     public barChartLegend:boolean = true;
     
     public barChartData:any[] = [{data: [], label: 'Tổng chi'}, {data: [], label: 'Tổng thu'}];
-    private type = ['other', 'earpipe', 'book'];
+    private type = ['book', 'earpipe', 'other'];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private db: AngularFireDatabase, private ToastCtrl: ToastController) {
     var number = this.navParams.get('number');

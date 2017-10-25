@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      statistic
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content style="margin:auto;text-align:center;">
+  <div style="margin:auto;width:50%;text-align:center;">
+    <ion-segment [(ngModel)]="statistic" (click)="changeTab()">
+      <ion-segment-button value="day">
+        Ngày
+      </ion-segment-button>
+      <ion-segment-button value="month">
+        Tháng
+      </ion-segment-button> 
+      <ion-segment-button value="year">
+        Năm
+      </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="statistic">
+      <ion-list *ngSwitchCase="'day'" class="contain">
+        <ion-card>
+          <ion-card-header style="background:#f8a;padding-bottom: 0;">
+            <div class="left">
+              <button ion-button (click)="prvDay()" color="secondary">
+                previous
+              </button>
+            </div>
+            <div class="center">
+			  {{currTime.getDate()}}/{{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+				  Biểu đồ
+			  </div>
+            </div>
+            <div class="right">
+              <button ion-button (click)="nextDay()" color="primary">
+                next
+              </button>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div>
+              Lợi nhuận: {{ g[statistic][0] |number:'.0-2'}}<br>
+              Tổng chi: {{ g[statistic][1] |number:'.0-2'}}<br>
+              Tổng thu: {{ g[statistic][2] |number:'.0-2'}}
+            </div>
+            <div *ngFor="let t of type; let i = index;">
+              {{t}}:  {{ dTotal[i][0] | number:'.0-2'}} ({{d2[i]}})
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>
+              Chi tiết
+            </ion-card-header>
+            <ion-card-content>
+              <div *ngFor="let item of d1; let i2 = index;" style="text-align:left;">
+                <span>
+                  {{i2 + 1}}. {{item.DateINP | date: "HH:mm"}}
+                </span>
+                <span *ngIf="item.type == 'import'" color="primary">
+                    Nhập
+                </span>
+                <span *ngIf="item.type == 'sold'" color="secondary">
+                    Bán
+                </span>
+                  {{books[item.key].Title}} [{{item.number}}] - {{item.PersonINP}}
+              </div>
+            </ion-card-content>
+        </ion-card>
+    </ion-list>
+    
+      <ion-list *ngSwitchCase="'month'" class="contain">
+        <ion-card>
+          <ion-card-header style="background:#f8a;padding-bottom: 0;">
+            <div class="left">
+              <button ion-button (click)="prvMonth()" color="secondary">
+                previous
+              </button>
+            </div>
+            <div  class="center">
+              {{currTime.getMonth() + 1}}/{{currTime.getFullYear()}}
+			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+				  Biểu đồ
+			  </div>
+            </div>
+            <div class="right">
+              <button ion-button (click)="nextMonth()" color="primary">
+                next
+              </button>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div>
+              Lợi nhuận: {{ g[statistic][0] |number:'.0-2'}}<br>
+              Tổng chi: {{ g[statistic][1] |number:'.0-2'}}<br>
+              Tổng thu: {{ g[statistic][2] |number:'.0-2'}}
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <div *ngFor="let item of mTotal; let i = index">
+          <ion-card *ngIf="item[0] > 0 || item[1] > 0 || item[2] > 0">
+            <ion-card-header>
+			  Ngày {{daynum - i}}
+			  <div class="right" (click)="getThisDate(daynum - i, i)" style="color:red; font-size:1.5em;">
+				  Chi tiết
+			  </div>
+            </ion-card-header>
+            <ion-card-content>
+              <div>
+                Lợi nhuận: {{ mTotal[i][0] |number:'.0-2'}}<br>
+                Tổng chi: {{ mTotal[i][1] |number:'.0-2'}}<br>
+                Tổng thu: {{ mTotal[i][2] |number:'.0-2'}}
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+	  </ion-list>
+      <ion-list *ngSwitchCase="'year'" class="contain">
+        <ion-card>
+          <ion-card-header style="background:#f8a;padding-bottom: 0;">
+            <div class="left">
+              <button ion-button (click)="prvYear()" color="secondary">
+                previous
+              </button>
+            </div>
+            <div class="center">
+              {{currTime.getFullYear()}}
+			  <div (click)="getChart()" style="color:red; font-size:1.5em;">
+				  Biểu đồ
+			  </div>
+            </div>
+            <div class="right">
+              <button ion-button (click)="nextYear()" color="primary">
+                next
+              </button>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div>
+              Lợi nhuận: {{ g[statistic][0] |number:'.0-2'}}<br>
+              Tổng chi: {{ g[statistic][1] |number:'.0-2'}}<br>
+              Tổng thu: {{ g[statistic][2] |number:'.0-2'}}
+            </div>
+          </ion-card-content>
+		</ion-card>
+		<div *ngFor="let item of yTotal; let i = index;">
+        <ion-card *ngIf="item[0] > 0 || item[1] > 0 || item[2] > 0">
+          <ion-card-header>
+            Tháng {{12 - i}}
+              <div (click)="gotoMonth(i)" style="color:red; font-size:1.5em;">
+              Đến tháng
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+				<div>
+				  Lợi nhuận: {{ yTotal[i][0] |number:'.0-2'}}<br>
+				  Tổng chi: {{ yTotal[i][1] |number:'.0-2'}}<br>
+				  Tổng thu: {{ yTotal[i][2] |number:'.0-2'}}
+				</div>
+          </ion-card-content>
+        </ion-card>
+		</div>
+    </ion-list>
+    </div>
+  </div>
+</ion-content>

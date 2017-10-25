@@ -3,7 +3,7 @@
 		<button ion-button menuToggle>
 			<ion-icon name="menu"></ion-icon>
 		</button>
-		<ion-title> 
+		
 			<span style="width:40%;float:left;margin-right:10%;">
 				<ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
 						<ion-segment-button value="book">
@@ -25,7 +25,7 @@
 				<button class="btn btn-primary"  id="btnNhap" (tap) = "pushBook()" >SÁCH <ion-icon name="md-add"></ion-icon></button>
 				</span>
 			</span>
-		</ion-title>
+	
 		
 		
 	</ion-navbar>
@@ -57,7 +57,7 @@
 											<ion-row>
 												<ion-col align-self-center col-5 id = "RowCol">
 													<ion-avatar item-start>
-														<img src="assets/images/1A.jpg" class="img-responsive img-thumbnail" id="dmanh" />
+														<img src="{{book.Image}}" height="128" width="128" class="img-responsive img-thumbnail" id="dmanh" />
 													</ion-avatar>
 													<button ion-button color="secondary"	class="btnnhap" (click)="sua(book.Title,book.$key,book.Price, book.Point,book.Quanlity)">
 															<span>
@@ -67,18 +67,8 @@
 													</button>
 												</ion-col>
 												<ion-col align-self-start col-7 id = "Col2">
-													<ion-row>
-														<ion-col align-self-center col-5 id = "RowCol">
-															GIÁ
-														</ion-col>
-														<ion-col align-self-center col-6 id = "Col2">
-															{{book.Price |number:'.0-2'}}
-														</ion-col>
-													</ion-row>
-													<ion-row>
-														<ion-col align-self-center col-5 id = "RowCol">SỐ LƯỢNG</ion-col>
-														<ion-col align-self-center col-6 id = "Col2"> {{book.Quanlity}} </ion-col>
-													</ion-row>
+												
+												
 													<ion-row>
 														<ion-col align-self-center col-5 id = "RowCol">TỒN KHO</ion-col>
 														<ion-col align-self-center col-6 id = "Col2"> {{book.Quanlity - book.Inv }} </ion-col>
@@ -86,6 +76,14 @@
 													<ion-row>
 														<ion-col align-self-center col-5 id = "RowCol">Điểm</ion-col>
 														<ion-col align-self-center col-6 id = "Col2"> {{book.Point }} </ion-col>
+													</ion-row>
+														<ion-row>
+														<ion-col align-self-center col-5 id = "RowCol">
+															GIÁ
+														</ion-col>
+														<ion-col align-self-center col-6 id = "Col2" style = "font-size:1.5em;color:red;text-weight:bold">
+															{{book.Price |number:'.0-2'}}
+														</ion-col>
 													</ion-row>
 													<ion-row style="margin-top:2em;">
 															<div style="width:100%;">
@@ -114,26 +112,26 @@
 	  </div>
 	  <div class="col-md-4 fixedp" >
 		<ion-row class="muahang">
-			<div style="width:100%;text-align:center;">
-				{{cusname}} đặt mua
-			</div>
+		<ion-col col-xl-7 style="text-align:left" [@bounce] ="bounceState">
+			[{{cusname}}]
+			</ion-col>
+			<ion-col col-xl-5 style="text-align:right" align-self-center>Tổng tiền: <font color="yellow">{{sumBooks |number:'.0-2'}}</font> Đ</ion-col>
 		</ion-row>
-		<ion-row style="font-weight:bold;">Danh sách đã chọn:</ion-row>
 		<ion-row class="dshangmua">
-			<ion-col style="padding-left:0.5em;">TT	</ion-col>
-			<ion-col>Tên</ion-col>
-			<ion-col style="padding-left:1.5em;">Giá</ion-col>
-			<ion-col style="padding-left:3em;">SL</ion-col>
+			<ion-col col-xl-1 style="padding-left:0.3em;"></ion-col>
+			<ion-col col-xl-5 >Tên SP</ion-col>
+			<ion-col style="text-align:center" col-xl-3>Giá</ion-col>
+			<ion-col style="text-align:center"  col-xl-3>S.Lượng</ion-col>
 			
 		</ion-row>
 		
 				<div *ngIf = "DataS.length > 0 ; else error">
 						
 					<ion-row *ngFor = "let book of DataS" class="dsdachon">
-						<ion-col style="padding-left:0.5em;">{{DataS.indexOf(book)+1}}</ion-col>
-						<ion-col style="margin-left:-1.5em;">{{book.Title}}</ion-col>
-						<ion-col>{{book.Price |number:'.0-2'}}</ion-col>
-						<ion-col>
+						<ion-col style="padding-left:0.3em;" col-xl-1 align-self-center>{{DataS.indexOf(book)+1}}</ion-col>
+						<ion-col  col-xl-5 align-self-center>{{book.Title}}</ion-col>
+						<ion-col col-xl-3 style="padding-left:1.5em;" align-self-center>{{book.Price |number:'.0-2'}}</ion-col>
+						<ion-col col-xl-3 align-self-center>
 						  <button class="btn btn-info"  value="sub" #sub (tap)="CQuanlity(sub.value,DataS.indexOf(book))"> <ion-icon name="md-remove"></ion-icon></button>
 						  <strong> [{{book.sold}}] </strong>
 						  <button class="btn btn-info"  value="add" #add (tap) ="CQuanlity(add.value,DataS.indexOf(book))"> <ion-icon name="md-add"></ion-icon></button>
@@ -154,10 +152,10 @@
 						</ion-row>
 			<ion-row style="border-bottom:2px solid #BDBDBD;margin-top:2em;"></ion-row>
 			<ion-row>
-				<ion-col col-9>
+				<ion-col>
 					<ion-searchbar
 					[(ngModel)]="myInput2"
-					 (ionInput)="onInput2($event)" placeholder = "Tìm kiếm" (ionFocus)="onFocus2($event)" (ionBlur)="onBlur2($event)"
+					 (ionInput)="onInput2($event)" placeholder = "Tìm kiếm khách hàng"
 					>
 				  </ion-searchbar>
 				</ion-col>
@@ -165,16 +163,9 @@
 				  <button class="btn btn-primary" id="btnNhap"  (tap) = "pushCus()" >KHÁCH <ion-icon name ="md-add"></ion-icon></button>
 				  </ion-col>
 			</ion-row>
-			<ion-row style="width:100%;">
+			<ion-row style="width:100%;" *ngFor="let customer of customers">
 				<ion-col>
-		<ion-row class="dskhachhang">
-			<div style="text-align:center;width:100%;">
-			DANH SÁCH KHÁCH HÀNG
-			</div>
-		</ion-row>
-		
-				 <ion-list>
-			  <button ion-item *ngFor="let customer of customers" (tap)="SelectCus($event, customer.$key,customer.Name, customer.Point)">
+			  <button ion-item (click)="SelectCus($event, customer.$key,customer.Name, customer.Point)">
 				<ion-icon name="md-person"></ion-icon>
 				{{customer.Name}} 
 				<div class="item-note" item-right>
@@ -182,7 +173,6 @@
 				</div>
 			  </button>
 		
-		  </ion-list>
 				</ion-col>
 			</ion-row>
 		</div>

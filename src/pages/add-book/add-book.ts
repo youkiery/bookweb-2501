@@ -107,9 +107,6 @@ export class AddBookPage{
 				if(typeof(this.Price) == 'string') {
 					this.Price = parseInt(this.Price);
 				}
-				if(typeof(this.Bill) == 'string') {
-					this.Bill = parseInt(this.Bill);
-				}
 				if(typeof(this.Quanlity) == 'string') {	
 					this.Quanlity = parseInt(this.Quanlity);	
 				}
@@ -127,8 +124,8 @@ export class AddBookPage{
 					PersonINP: this.authData.fetchUser()["displayName"],
 					DateINP: new Date().toLocaleDateString() + " " +  new Date().toLocaleTimeString(),
 					Image: this.url,
-					View:0,
-					Bought:0
+					View: 0,
+					Bought: 0
 				}
 				this.authData.insertDBFree("Inventory/BOOKS/",data);
 				this.db.list('/statistic/').push({
@@ -160,7 +157,6 @@ export class AddBookPage{
 				this.Type=null;
 				this.Price=null;
 				this.Quanlity=null;
-				this.Bill=null;
 				this.Point=null;
 			}
 			

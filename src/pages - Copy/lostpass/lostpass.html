@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Quên mật khẩu
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+<body class="body-bg-full profile-page"  style="background-image: url(assets/images/night.jpg)">
+  <!--<form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Your email address"
+        [class.invalid]="!signupForm.controls.email.valid && signupForm.controls.email.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid  && signupForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input formControlName="password" type="password"  placeholder="Your password"
+        [class.invalid]="!signupForm.controls.password.valid && signupForm.controls.password.dirty"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid  && signupForm.controls.password.dirty">
+      <p>Your password needs more than 6 characters.</p>
+    </ion-item>
+
+    <button ion-button block type="submit">
+      Create an Account
+    </button>
+
+  </form>
+  -->
+  
+    <div id="wrapper" class="row wrapper">
+        <div class=" login-center mx-auto">
+       
+            <!-- /.navbar-header -->
+            <form class="md-form" [formGroup]="resetPasswordForm" (submit)="resetPassword()" novalidate>
+              <p class="text-center text-muted">Nhập địa chỉ Email vào ô dưới đây, chúng tôi sẽ gửi mật khẩu mới đến.</p>
+                <div class="form-group no-gutters">
+				<label for="email" class="col-md-12 mb-1">Email</label>
+                    <input type="email" formControlName="email" placeholder="bacdeptrai@gmail.com" class="form-control form-control-line"  [class.invalid]="!resetPasswordForm.controls.email.valid && resetPasswordForm.controls.email.dirty" id="email" name="email">
+                    
+                </div>
+				   <div class="error-message" *ngIf="!resetPasswordForm.controls.email.valid  && resetPasswordForm.controls.email.dirty">
+      <p>Vui lòng nhập đúng định dạng Email.</p>
+    </div>
+                <div class="form-group mb-5">
+                    <button class="btn btn-block btn-primary ripple " type="submit">Gửi lại mật khẩu mới</button>
+                </div>           
+				</form>
+			</div>
+			</div>
+            <!-- /.form-material -->
+          
+    <!-- /.body-container -->
+    <!-- Scripts -->
+</body>
+
+</ion-content>
